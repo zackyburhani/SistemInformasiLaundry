@@ -62,6 +62,8 @@ $route['login/logout'] = 'ControllerLogin/logout';
 
 //pelanggan
 $route['pelanggan'] = 'ControllerPelanggan';
+$route['pelanggan/data_pelanggan'] = 'ControllerPelanggan/data_pelanggan';
 $route['pelanggan/simpan'] = 'ControllerPelanggan/simpan';
-$route['ppelanggan/ubah'] = 'ControllerPelanggan/ubah';
-$route['pelanggan/hapus/(:any)'] = 'ControllerPelanggan/hapus/$1';
+$route['pelanggan/ubah'] = 'ControllerPelanggan/ubah';
+$route['pelanggan/get_pelanggan'] = 'ControllerPelanggan/get_pelanggan';
+$route['pelanggan/hapus'] = 'ControllerPelanggan/hapus';

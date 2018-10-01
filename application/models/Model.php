@@ -22,6 +22,15 @@ class Model extends CI_Model {
 		return $result->result();
 	}
 
+	//ambil semua data perID
+	public function getByID($table,$kolom,$id)
+	{
+		$this->db->from($table);
+		$this->db->where($kolom, $id);
+		$query = $this->db->get();
+		return $query->row();
+	}
+
 	//simpan
 	public function simpan($table,$data)
 	{
@@ -64,19 +73,19 @@ class Model extends CI_Model {
 	}
 
     //kode poli
-	public function getKodeDokter()
+	public function getKodePelanggan()
     {
-       	$q  = $this->db->query("SELECT MAX(RIGHT(id_dokter,6)) as kd_max from dokter");
+       	$q  = $this->db->query("SELECT MAX(RIGHT(kd_pelanggan,7)) as kd_max from pelanggan");
        	$kd = "";
     	if($q->num_rows() > 0) {
         	foreach ($q->result() as $k) {
           		$tmp = ((int)$k->kd_max)+1;
-           		$kd = sprintf("%06s",$tmp);
+           		$kd = sprintf("%07s",$tmp);
         	}
     	} else {
-         $kd = "000001";
+         $kd = "0000001";
     	}
-       	return "DKTR".$kd;
+       	return "PLG".$kd;
     }
 
 }
