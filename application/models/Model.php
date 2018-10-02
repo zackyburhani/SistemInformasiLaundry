@@ -67,9 +67,25 @@ class Model extends CI_Model {
 			$this->db->delete($table);
 			$checkdelete = true;
 		}catch (Exception $ex) {
-			$checkhapus = false;
+			$checkdelete = false;
 		}
 		return $checkdelete;
+	}
+
+	//join
+	public function getJoin($table1,$table2,$fk1,$fk2)
+	{
+		$check = false;
+		try{
+			$this->db->select('*');
+			$this->db->from($table1);
+			$this->db->join($table2, $fk1.'='.$fk2);
+			$query = $this->db->get();
+			return $query->result();
+		}catch (Exception $ex) {
+			$check = false;
+		}
+		return $check;
 	}
 
     //kode pelanggan

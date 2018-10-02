@@ -27,7 +27,13 @@ class ControllerOrder extends CI_Controller
 		$data = [
 			'kd_order' => $kode
 		];
-		echo json_encode($data);
+		echo json_encode($data); die();
+	}
+
+	function data_order()
+	{
+		$order = $this->Model->getJoin('order_pesanan','pelanggan','order_pesanan.kd_pelanggan','pelanggan.kd_pelanggan');
+		echo json_encode($order);
 	}
 
 	function add_to_cart(){ //fungsi Add To Cart
@@ -86,6 +92,25 @@ class ControllerOrder extends CI_Controller
         $this->cart->update($data);
         echo $this->show_cart();
     }
+
+    function simpan()
+	{
+		$kd_order = $this->input->post('kd_order');
+		$tgl_masuk = $this->input->post('tgl_masuk');
+		$tgl_keluar = $this->input->post('tgl_keluar');
+		$kd_pelanggan = $this->input->post('kd_pelanggan');
+
+		$data = [
+			'kd_order' => $kd_order,
+			'tgl_masuk' => $tgl_masuk,
+			'tgl_keluar' => $tgl_keluar,
+			'kd_pelanggan' => $kd_pelanggan
+		];
+
+		$result = $this->Model->simpan('order_pesanan',$data);
+
+		echo json_encode($result);
+	}
 
 
 }
