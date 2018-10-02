@@ -94,4 +94,4 @@ $route['order/simpan'] = 'ControllerOrder/simpan';
 $route['order/ubah'] = 'ControllerOrder/ubah';
 $route['order/get_order'] = 'ControllerOrder/get_order';
 $route['order/hapus'] = 'ControllerOrder/hapus';
-$route['order/getKode'] = 'ControllerOrder/getOrder';
+$route['order/getKode'] = 'ControllerOrder/getKode';

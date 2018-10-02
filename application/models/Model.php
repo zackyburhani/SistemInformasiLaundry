@@ -120,4 +120,20 @@ class Model extends CI_Model {
        	return "JSA".$kd;
     }
 
+    //kode Order
+	public function getKodeOrder()
+    {
+       	$q  = $this->db->query("SELECT MAX(RIGHT(kd_order,7)) as kd_max from order_pesanan");
+       	$kd = "";
+    	if($q->num_rows() > 0) {
+        	foreach ($q->result() as $k) {
+          		$tmp = ((int)$k->kd_max)+1;
+           		$kd = sprintf("%07s",$tmp);
+        	}
+    	} else {
+         $kd = "0000001";
+    	}
+       	return "ORP".$kd;
+    }
+
 }
