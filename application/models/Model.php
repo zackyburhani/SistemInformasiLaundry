@@ -72,7 +72,7 @@ class Model extends CI_Model {
 		return $checkdelete;
 	}
 
-    //kode poli
+    //kode pelanggan
 	public function getKodePelanggan()
     {
        	$q  = $this->db->query("SELECT MAX(RIGHT(kd_pelanggan,7)) as kd_max from pelanggan");
@@ -86,6 +86,38 @@ class Model extends CI_Model {
          $kd = "0000001";
     	}
        	return "PLG".$kd;
+    }
+
+    //kode barang
+	public function getKodeBarang()
+    {
+       	$q  = $this->db->query("SELECT MAX(RIGHT(kd_barang,7)) as kd_max from barang");
+       	$kd = "";
+    	if($q->num_rows() > 0) {
+        	foreach ($q->result() as $k) {
+          		$tmp = ((int)$k->kd_max)+1;
+           		$kd = sprintf("%07s",$tmp);
+        	}
+    	} else {
+         $kd = "0000001";
+    	}
+       	return "BRG".$kd;
+    }
+
+    //kode Jasa
+	public function getKodeJasa()
+    {
+       	$q  = $this->db->query("SELECT MAX(RIGHT(kd_jasa,7)) as kd_max from jasa");
+       	$kd = "";
+    	if($q->num_rows() > 0) {
+        	foreach ($q->result() as $k) {
+          		$tmp = ((int)$k->kd_max)+1;
+           		$kd = sprintf("%07s",$tmp);
+        	}
+    	} else {
+         $kd = "0000001";
+    	}
+       	return "JSA".$kd;
     }
 
 }

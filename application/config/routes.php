@@ -67,3 +67,31 @@ $route['pelanggan/simpan'] = 'ControllerPelanggan/simpan';
 $route['pelanggan/ubah'] = 'ControllerPelanggan/ubah';
 $route['pelanggan/get_pelanggan'] = 'ControllerPelanggan/get_pelanggan';
 $route['pelanggan/hapus'] = 'ControllerPelanggan/hapus';
+$route['pelanggan/getKode'] = 'ControllerPelanggan/getKode';
+
+//barang
+$route['barang'] = 'ControllerBarang';
+$route['barang/data_barang'] = 'ControllerBarang/data_barang';
+$route['barang/simpan'] = 'ControllerBarang/simpan';
+$route['barang/ubah'] = 'ControllerBarang/ubah';
+$route['barang/get_barang'] = 'ControllerBarang/get_barang';
+$route['barang/hapus'] = 'ControllerBarang/hapus';
+$route['barang/getKode'] = 'ControllerBarang/getKode';
+
+//jasa
+$route['jasa'] = 'ControllerJasa';
+$route['jasa/data_jasa'] = 'ControllerJasa/data_jasa';
+$route['jasa/simpan'] = 'ControllerJasa/simpan';
+$route['jasa/ubah'] = 'ControllerJasa/ubah';
+$route['jasa/get_jasa'] = 'ControllerJasa/get_jasa';
+$route['jasa/hapus'] = 'ControllerJasa/hapus';
+$route['jasa/getKode'] = 'ControllerJasa/getKode';
+
+//order
+$route['order'] = 'ControllerOrder';
+$route['order/data_order'] = 'ControllerOrder/data_order';
+$route['order/simpan'] = 'ControllerOrder/simpan';
+$route['order/ubah'] = 'ControllerOrder/ubah';
+$route['order/get_order'] = 'ControllerOrder/get_order';
+$route['order/hapus'] = 'ControllerOrder/hapus';
+$route['order/getKode'] = 'ControllerOrder/getOrder';

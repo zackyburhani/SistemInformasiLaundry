@@ -42,6 +42,13 @@
             <span>Data Petugas</span>
           </a>
         </li>
+        <li class="header"><i class="fa fa-asterisk"></i> DATA TRANSAKSI</li>
+        <li>
+          <a href="<?php echo site_url('order') ?>">
+            <i class="fa fa-envelope"></i>
+            <span>Order Cucian</span>
+          </a>
+        </li>
         <li class="header"></li>
         <li>
           <a href="<?php echo site_url('login/logout') ?>">

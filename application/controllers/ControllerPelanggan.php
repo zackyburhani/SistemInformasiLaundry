@@ -11,13 +11,19 @@ class ControllerPelanggan extends CI_Controller
 	
 	function index()
 	{	
-		$data = [
-			'kd_pelanggan' => $this->Model->getKodePelanggan()
-		];
 		$this->load->view('template/v_header');
 		$this->load->view('template/v_sidebar');
-		$this->load->view('v_pelanggan',$data);
+		$this->load->view('v_pelanggan');
 		$this->load->view('template/v_footer');
+	}
+
+	function getKode()
+	{
+		$kode = $this->Model->getKodePelanggan();
+		$data = [
+			'kd_pelanggan' => $kode
+		];
+		echo json_encode($data);
 	}
 
 	function data_pelanggan()

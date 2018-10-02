@@ -7,35 +7,11 @@
     </section>
 
     <section class="content">
-
-      <?php if ($this->session->flashdata('pesan') == TRUE) { ?>
-          <script>
-            setTimeout(function() {
-              swal({
-                      title:"",
-                      text: "<?php echo $this->session->flashdata('pesan') ?>",
-                      type: "success"
-                    });
-                  }, 550);
-          </script>
-        <?php } ?>
-
-        <?php if ($this->session->flashdata('pesanGagal') == TRUE) { ?>
-           <script>
-            setTimeout(function() {
-              swal({
-                      title: "<?php echo $this->session->flashdata('pesanGagal') ?>",
-                      type: "error"
-                    });
-                  }, 550);
-          </script>
-        <?php } ?>
-
       <div class="row">
         <div class="col-lg-12">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <button class="btn btn-default" data-toggle="modal" href="#" data-target="#ModalTambahPelanggan"><i class="fa fa-plus"></i></button> Tambah Data pelanggan
+              <button class="btn btn-default" id="tambahPelanggan" data-toggle="modal" href="#" data-target="#ModalTambahPelanggan"><i class="fa fa-plus"></i></button> Tambah Data pelanggan
             </div>
             <div class="panel-body">
       
@@ -44,9 +20,9 @@
                   <tr>
                     <th width="50px">No. </th>
                     <th><center>Nama Pelanggan</center></th>
-                    <th><center>Telepon</center></th>
+                    <th width="150px"><center>Telepon</center></th>
                     <th><center>Alamat</center></th>
-                    <th width="200px" align="center;"> <center>Action</center> </th>
+                    <th width="100px"> <center>Action</center> </th>
                   </tr>
                 </thead>
                 <tbody id="show_data">
@@ -74,28 +50,28 @@
           <div class="form-group">
             <label class="control-label col-xs-3" >Kode Pelanggan</label>
             <div class="col-xs-9">
-              <input name="kd_pelanggan" id="kd_pelanggan_id" value="<?php echo $kd_pelanggan ?>" readonly class="form-control" type="text" placeholder="Kode Barang" style="width:335px;" required>
+              <input name="kd_pelanggan" id="kd_pelanggan_id" readonly class="form-control" type="text" placeholder="Kode Barang" style="width:335px;" required>
             </div>
           </div>
 
           <div class="form-group">
             <label class="control-label col-xs-3" >Nama Pelanggan</label>
             <div class="col-xs-9">
-              <input name="nm_pelanggan" id="nm_pelanggan_id" class="form-control" type="text" placeholder="Nama Barang" style="width:335px;" required>
+              <input name="nm_pelanggan" id="nm_pelanggan_id" class="form-control" type="text" placeholder="Nama Pelanggan" style="width:335px;" required>
             </div>
           </div>
 
           <div class="form-group">
             <label class="control-label col-xs-3" >Nomor Telepon</label>
             <div class="col-xs-9">
-              <input name="no_telp" id="no_telp_id" class="form-control" type="text" placeholder="Harga" style="width:335px;" required>
+              <input name="no_telp" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="no_telp_id" class="form-control" type="text" placeholder="Nomor Telepon" style="width:335px;" required>
             </div>
           </div>
 
           <div class="form-group">
             <label class="control-label col-xs-3" >Alamat</label>
-            <div class="col-xs-9">
-              <textarea name="alamat" id="alamat_id" class="form-control"></textarea>
+            <div class="col-md-8">
+              <textarea name="alamat" id="alamat_id" rows="4" cols="5" placeholder="Alamat" class="form-control"></textarea>
             </div>
           </div>
 
@@ -103,7 +79,7 @@
 
         <div class="modal-footer">
           <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-info" id="btn_simpan">Simpan</button>
+          <button class="btn btn-success" id="btn_simpan">Simpan</button>
         </div>
       </form>
     </div>
@@ -118,7 +94,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 class="modal-title" id="myModalLabel">Tambah Pelanggan</h3>
+        <h3 class="modal-title" id="myModalLabel">Ubah Pelanggan</h3>
       </div>
       <form class="form-horizontal">
         <div class="modal-body">
@@ -126,28 +102,28 @@
           <div class="form-group">
             <label class="control-label col-xs-3" >Kode Pelanggan</label>
             <div class="col-xs-9">
-              <input name="kd_pelanggan_edit" id="kd_pelanggan_id_edit" class="form-control" type="text" placeholder="Kode Barang" style="width:335px;" required>
+              <input name="kd_pelanggan_edit" id="kd_pelanggan_id_edit" class="form-control" type="text" placeholder="Kode Pelanggan" style="width:335px;" required readonly>
             </div>
           </div>
 
           <div class="form-group">
             <label class="control-label col-xs-3" >Nama Pelanggan</label>
             <div class="col-xs-9">
-              <input name="nm_pelanggan_edit" id="nm_pelanggan_id_edit" class="form-control" type="text" placeholder="Nama Barang" style="width:335px;" required>
+              <input name="nm_pelanggan_edit" id="nm_pelanggan_id_edit" class="form-control" type="text" placeholder="Nama Pelanggan" style="width:335px;" required>
             </div>
           </div>
 
           <div class="form-group">
             <label class="control-label col-xs-3" >Nomor Telepon</label>
             <div class="col-xs-9">
-              <input name="no_telp_edit" id="no_telp_id_edit" class="form-control" type="text" placeholder="Harga" style="width:335px;" required>
+              <input name="no_telp_edit" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="no_telp_id_edit" class="form-control" type="text" placeholder="Nomor Telepon" style="width:335px;" required>
             </div>
           </div>
 
           <div class="form-group">
             <label class="control-label col-xs-3" >Alamat</label>
             <div class="col-xs-9">
-              <textarea name="alamat_edit" id="alamat_id_edit" class="form-control"></textarea>
+              <textarea name="alamat_edit" rows="4" cols="5" id="alamat_id_edit" class="form-control"></textarea>
             </div>
           </div>
 
@@ -155,7 +131,7 @@
 
         <div class="modal-footer">
           <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-info" id="btn_update">Simpan</button>
+          <button class="btn btn-success" id="btn_update">Simpan</button>
         </div>
       </form>
     </div>
@@ -165,7 +141,7 @@
 
 <!--MODAL HAPUS-->
 <div class="modal fade" id="ModalHapusPelanggan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
@@ -175,7 +151,7 @@
       
         <div class="modal-body">              
           <input type="hidden" name="kode" id="textkode" value="">
-            <div class="alert alert-warning"><p>Apakah Anda yakin mau memhapus ?</p></div>
+            <p>Apakah Anda yakin mau menghapus ?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
@@ -212,7 +188,7 @@
                         '<td>'+data[i].nm_pelanggan+'</td>'+
                         '<td>'+data[i].no_telp+'</td>'+
                         '<td>'+data[i].alamat+'</td>'+
-                        '<td style="text-align:right;">'+
+                        '<td style="text-align:center;">'+
                           '<button data-target="javascript:;" class="btn btn-warning pelanggan_edit" data="'+data[i].kd_pelanggan+'"><span class="glyphicon glyphicon-edit"></span></button>'+' '+
                           '<button data-target="javascript:;" class="btn btn-danger pelanggan_hapus" data="'+data[i].kd_pelanggan+'"><span class="glyphicon glyphicon-trash"></span></button>'+
                         '</td>'+
@@ -222,6 +198,22 @@
             }
         });
     }
+
+    //get Kode
+    $("#tambahPelanggan").click(function(){
+        $.ajax({
+          type : "GET",
+          url  : "<?php echo base_url('pelanggan/getKode')?>",
+          dataType : "JSON",
+          success: function(data){
+            $.each(data,function(kd_pelanggan){
+              $('#ModalTambahPelanggan').modal('show');
+              $('[name="kd_pelanggan"]').val(data.kd_pelanggan);
+            });
+          }
+        });
+        return false;
+    });
 
     //GET UPDATE
     $('#show_data').on('click','.pelanggan_edit',function(){
@@ -294,6 +286,9 @@
           $('[name="no_telp_edit"]').val("");
           $('[name="no_alamat_edit"]').val("");
           $('#ModalEditPelanggan').modal('hide');
+          setTimeout(function() {
+              swal("Berhasil Disimpan", "", "success");
+                  }, 600);
           tampil_data_pelanggan();
         }
       });
