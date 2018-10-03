@@ -90,6 +90,45 @@ class Model extends CI_Model {
 		return $check;
 	}
 
+	//by id
+	public function getJoinOrder_ID($kd_order)
+	{
+		$check = false;
+		try{
+			$this->db->select('*');
+			$this->db->from('order_pesanan');
+			$this->db->join('pelanggan', 'pelanggan.kd_pelanggan = order_pesanan.kd_pelanggan');
+			$this->db->where('status','0');
+			$this->db->where('kd_order',$kd_order);
+			$this->db->order_by('kd_order','DESC');
+			$query = $this->db->get();
+			return $query->result();
+		}catch (Exception $ex) {
+			$check = false;
+		}
+		return $check;
+	}
+
+	//detail berdasarkan id
+	public function getJoinDetail_ID($kd_order)
+	{
+		$check = false;
+		try{
+			$query = $this->db->query("
+				SELECT *,
+					(SELECT sum(jumlah) FROM detail_order JOIN pelanggan ON pelanggan.kd_pelanggan = detail_order.kd_pelanggan JOIN order_pesanan ON order_pesanan.kd_pelanggan = pelanggan.kd_pelanggan WHERE order_pesanan.kd_order = '$kd_order') as total 
+				FROM pelanggan
+					JOIN order_pesanan ON pelanggan.kd_pelanggan = order_pesanan.kd_pelanggan
+					JOIN detail_order ON pelanggan.kd_pelanggan = detail_order.kd_pelanggan
+					JOIN jasa ON detail_order.kd_jasa = jasa.kd_jasa
+				WHERE order_pesanan.status = '0' AND order_pesanan.kd_order = '$kd_order'");
+			return $query->result();
+		}catch (Exception $ex) {
+			$check = false;
+		}
+		return $check;
+	}
+
     //kode pelanggan
 	public function getKodePelanggan()
     {

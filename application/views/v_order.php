@@ -156,6 +156,43 @@
 </div>
 <!--END MODAL ADD-->  
 
+<!-- MODAL DETAIL -->
+<div class="modal fade" id="ModalOrderDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel"><i class="fa fa-tag"></i> Detail Order</h4>
+      </div>
+        <div class="modal-body">
+        <div class="row" id="detail_order1">
+          
+        </div>
+        <table style="table-layout:fixed" class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th align="center" width="50px">No. </th>
+              <th align="center"><center>Kode Jasa</center></th>
+              <th align="center"><center>Nama Jasa</center></th>
+              <th align="center"><center>Harga</center></th>
+              <th align="center"><center>Jumlah</center></th>
+              <th align="center"><center>Jumlah Harga / Rp.</center></th>
+            </tr>
+          </thead>
+          <tbody id="detail_order2">
+            
+          </tbody>
+        </table>
+
+        </div>
+        <div class="modal-footer">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- END MODAL DETAIL -->
+
   <script type="text/javascript">
     $(document).ready(function(){
 
@@ -253,21 +290,109 @@
         });
 
         //GET UPDATE
-        $('#show_data').on('click','.order_edit',function(){
-          var kd_jasa = $(this).attr('data');
+        $('#show_data').on('click','.order_detail',function(){
+          var kd_order = $(this).attr('data');
             $.ajax({
               type : "GET",
               url  : "<?php echo base_url('order/get_order')?>",
               dataType : "JSON",
               data : {kd_order:kd_order},
               success: function(data){
-                $.each(data,function(kd_order, tgl_masuk, tgl_keluar,kd_pelanggan){
-                  $('#ModalEditJasa').modal('show');
-                  $('[name="kd_order_edit"]').val(data.kd_order);
-                  $('[name="tgl_masuk_edit"]').val(data.tgl_masuk);
-                  $('[name="tgl_keluar_edit"]').val(data.tgl_keluar);
-                  $('[name="kd_pelanggan_edit"]').val(data.kd_pelanggan);
-                });
+
+                  var html = '';
+                    var i;
+                    no = 1;
+                    for(i=0; i<data.length; i++){
+                      if(data[i].status == 0){
+                        var status = "Sedang Diproses";
+                      } else {
+                        var status = "Sudah Selesai";
+                      }
+                        html += 
+                        '<div class="col-md-6">'+
+                        '<table style="table-layout:fixed" class="table table-bordered ">'+
+                          '<tbody>'+
+                            '<tr>'+
+                              '<td style="width: 100px">Nama</td>'+
+                              '<td style="width: 10px">:</td>'+
+                              '<td>'+data[i].nm_pelanggan+'</td>'+
+                            '</tr>'+
+                            '<tr>'+
+                              '<td>Telepon</td>'+
+                              '<td>:</td>'+
+                              '<td>'+data[i].no_telp+'</td>'+
+                            '</tr>'+
+                            '<tr>'+
+                              '<td>Alamat</td>'+
+                              '<td>:</td>'+
+                              '<td>'+data[i].alamat+'</td>'+
+                            '</tr>'+
+                          '</tbody>'+
+                        '</table>'+
+                        '</div>'+
+                        '<div class="col-md-6">'+
+                          '<table style="table-layout:fixed" class="table table-bordered ">'+
+                          '<tbody>'+
+                            '<tr>'+
+                              '<td style="width: 150px">Tanggal Masuk</td>'+
+                              '<td style="width: 10px">:</td>'+
+                              '<td>'+data[i].tgl_masuk+'</td>'+
+                            '</tr>'+
+                            '<tr>'+
+                              '<td>Tanggal Keluar</td>'+
+                              '<td>:</td>'+
+                              '<td>'+data[i].tgl_keluar+'</td>'+
+                            '</tr>'+
+                            '<tr>'+
+                              '<td>Status</td>'+
+                              '<td>:</td>'+
+                              '<td>'+status+'</td>'+
+                            '</tr>'+
+                          '</tbody>'+
+                        '</table>'+
+                      '</div>';
+                    }
+                    $('#detail_order1').html(html);
+
+
+                    $.ajax({
+                        type : "GET",
+                        url  : "<?php echo base_url('order/get_detail_order')?>",
+                        dataType : "JSON",
+                        data : {kd_order:kd_order},
+                        success: function(data){
+                          var html = '';
+                          var total = '';
+                          var i;
+                          no = 1;
+                          for(i=0; i<data.length; i++){
+                            if(data[i].status == 0){
+                              var status = "Sedang Diproses";
+                            } else {
+                              var status = "Sudah Selesai";
+                            }
+                              html += 
+                                '<tr>'+
+                                  '<td><center>'+no++ +'.'+'</center></td>'+
+                                  '<td><center>'+data[i].kd_jasa+'</center></td>'+
+                                  '<td><center>'+data[i].nm_jasa+'</center></td>'+
+                                  '<td><center>'+data[i].harga+'</center></td>'+
+                                  '<td><center>'+data[i].satuan+'</center></td>'+
+                                  '<td><center>'+data[i].jumlah+'</center></td>'+
+                                '</tr>';
+                              total = data[i].total;
+                          }
+                          html +=
+                                '<tr>'+
+                                  '<td colspan="5"><center><b>TOTAL</b></center></td>'+
+                                  '<td><center><b>'+total+'</b></center></td>'+
+                                '</tr>';
+                          $('#detail_order2').html(html);
+
+                        }
+                      });
+
+                  $('#ModalOrderDetail').modal('show');
               }
             });
             return false;
@@ -322,17 +447,6 @@
                       url  : "<?php echo base_url('order/simpan_detail')?>",
                       dataType : "JSON",
                       data : {kd_jasa:id, kd_pelanggan:kd_pelanggan, satuan:qty, jumlah:price},
-                      success: function(data){
-                        $.ajax({
-                          type : "POST",
-                          url  : "<?php echo base_url('order/destroy')?>",
-                          dataType : "JSON",
-                          data : {output: ''},
-                          success: function(data){
-                            $('#detail_cart').load('<?php echo base_url('order/destroy') ?>');
-                          }
-                        }); 
-                      }
                     }); 
 
                   });
@@ -345,7 +459,7 @@
                   icon: "success",
                   button: "Ok !",
                 }).then(function() {
-                 window.location.href="<?php echo base_url('order') ?>" 
+                  $('#detail_cart').load('<?php echo base_url('order/destroy') ?>');
                 });
               tampil_data_order();
             }
@@ -354,24 +468,14 @@
         });
 
         //Update Jasa
-        $('#btn_update').on('click',function(){
-          var kd_jasa = $('#kd_jasa_id_edit').val();
-          var nm_jasa = $('#nm_jasa_id_edit').val();
-          var harga = $('#harga_id_edit').val();
+        $('.order_cetak').on('click',function(){
+          var kd_order = $('#textkode').val();
           $.ajax({
             type : "POST",
-            url  : "<?php echo base_url('jasa/ubah')?>",
+            url  : "<?php echo base_url('order/cetak')?>",
             dataType : "JSON",
-            data : {kd_jasa:kd_jasa , nm_jasa:nm_jasa, harga:harga},
+            data : {kd_order:kd_order},
             success: function(data){
-              $('[name="kd_jasa_edit"]').val("");
-              $('[name="nm_jasa_edit"]').val("");
-              $('[name="harga_edit"]').val("");
-              $('#ModalEditJasa').modal('hide');
-              setTimeout(function() {
-                  swal("Berhasil Disimpan", "", "success");
-                      }, 600);
-              tampil_data_order();
             }
           });
           return false;
