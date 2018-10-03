@@ -97,7 +97,6 @@
       </div>
     </div>
   </div>
-
 </section>
 </div>
 
@@ -226,8 +225,9 @@
                             '<td align="center">'+data[i].tgl_keluar+'</td>'+
                             '<td align="center">'+data[i].nm_pelanggan+'</td>'+
                             '<td style="text-align:center;">'+
-                              '<button data-target="javascript:;" class="btn btn-info order_edit" data="'+data[i].kd_order+'"><span class="fa fa-folder-open"></span></button>'+' '+
-                              '<button data-target="javascript:;" class="btn btn-primary order_cetak" data="'+data[i].kd_order+'"><span class="fa fa-file-pdf-o"></span></button>'+
+                              '<button data-target="javascript:;" class="btn btn-info order_detail" data="'+data[i].kd_order+'"><span class="fa fa-folder-open"></span></button>'+' '+
+                              '<button data-target="javascript:;" class="btn btn-primary order_cetak" data="'+data[i].kd_order+'"><span class="fa fa-file-pdf-o"></span></button>'+' '+ 
+                              '<button data-target="javascript:;" class="btn btn-success order_proses" data="'+data[i].kd_order+'"><span class="fa fa-gears"></span></button>'+ 
                             '</td>'+
                         '</tr>';
                     }
@@ -237,7 +237,7 @@
         }
 
         //get Kode
-        $("#tambahOrder").click(function(){
+        $("#tambahOrder").click(function(){ 
             $.ajax({
               type : "GET",
               url  : "<?php echo base_url('order/getKode')?>",
@@ -303,9 +303,50 @@
               $('[name="tgl_keluar"]').val("");
               $('[name="kd_pelanggan"]').val("");
               $('#ModalTambahOrder').modal('hide');
-              setTimeout(function() {
-                  swal("Berhasil Disimpan", "", "success");
-                      }, 600);
+              
+
+              $.ajax({
+                type : "GET",
+                url  : "<?php echo base_url('ControllerOrder/load_detail')?>",
+                dataType : "JSON",
+                success: function(data){
+                  var array = [];
+                  $.each(data,function(index,objek){
+                    var id = objek.id;
+                    var qty = objek.qty;
+                    var price = objek.price;
+                    // array.push = [id,qty,price];
+                    
+                    $.ajax({
+                      type : "POST",
+                      url  : "<?php echo base_url('order/simpan_detail')?>",
+                      dataType : "JSON",
+                      data : {kd_jasa:id, kd_pelanggan:kd_pelanggan, satuan:qty, jumlah:price},
+                      success: function(data){
+                        $.ajax({
+                          type : "POST",
+                          url  : "<?php echo base_url('order/destroy')?>",
+                          dataType : "JSON",
+                          data : {output: ''},
+                          success: function(data){
+                            $('#detail_cart').load('<?php echo base_url('order/destroy') ?>');
+                          }
+                        }); 
+                      }
+                    }); 
+
+                  });
+                }
+              });  
+
+              swal({
+                  title: "Berhasil Disimpan",
+                  text: "",
+                  icon: "success",
+                  button: "Ok !",
+                }).then(function() {
+                 window.location.href="<?php echo base_url('order') ?>" 
+                });
               tampil_data_order();
             }
           });

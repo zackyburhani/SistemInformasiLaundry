@@ -72,14 +72,16 @@ class Model extends CI_Model {
 		return $checkdelete;
 	}
 
-	//join
-	public function getJoin($table1,$table2,$fk1,$fk2)
+	//join order
+	public function getJoinOrder()
 	{
 		$check = false;
 		try{
 			$this->db->select('*');
-			$this->db->from($table1);
-			$this->db->join($table2, $fk1.'='.$fk2);
+			$this->db->from('order_pesanan');
+			$this->db->join('pelanggan', 'pelanggan.kd_pelanggan = order_pesanan.kd_pelanggan');
+			$this->db->where('status','0');
+			$this->db->order_by('kd_order','DESC');
 			$query = $this->db->get();
 			return $query->result();
 		}catch (Exception $ex) {

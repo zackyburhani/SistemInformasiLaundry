@@ -32,7 +32,7 @@ class ControllerOrder extends CI_Controller
 
 	function data_order()
 	{
-		$order = $this->Model->getJoin('order_pesanan','pelanggan','order_pesanan.kd_pelanggan','pelanggan.kd_pelanggan');
+		$order = $this->Model->getJoinOrder();
 		echo json_encode($order);
 	}
 
@@ -83,6 +83,18 @@ class ControllerOrder extends CI_Controller
     function load_cart(){ //load data cart
         echo $this->show_cart();
     }
+
+    function load_detail(){ 
+        foreach ($this->cart->contents() as $items) {
+            $data[] = [
+            	'id'=> $items['id'],
+            	'name' =>$items['name'],
+            	'price' =>$items['subtotal'],
+            	'qty' =>$items['qty']
+            ];      
+        }
+        echo json_encode($data);
+    }
  
     function hapus_cart(){ //fungsi untuk menghapus item cart
         $data = array(
@@ -104,12 +116,47 @@ class ControllerOrder extends CI_Controller
 			'kd_order' => $kd_order,
 			'tgl_masuk' => $tgl_masuk,
 			'tgl_keluar' => $tgl_keluar,
+			'status' => '0',
 			'kd_pelanggan' => $kd_pelanggan
 		];
 
 		$result = $this->Model->simpan('order_pesanan',$data);
 
 		echo json_encode($result);
+	}
+
+	function simpan_detail()
+	{
+		$kd_jasa = $this->input->post('kd_jasa');
+		$kd_pelanggan = $this->input->post('kd_pelanggan');
+		$satuan = $this->input->post('satuan');
+		$jumlah = $this->input->post('jumlah');
+
+		$data = [
+			'kd_jasa' => $kd_jasa,
+			'kd_pelanggan' => $kd_pelanggan,
+			'satuan' => $satuan,
+			'jumlah' => $jumlah,
+		];
+
+		$result = $this->Model->simpan('detail_order',$data);
+
+		echo json_encode($result);
+	}
+
+	function destroy()
+	{	
+		$output = $this->input->post('output');
+		$data = $this->cart->destroy();
+        $output .= '
+            <tr>
+                <th colspan="4"><center>TOTAL</center></th>
+                <th colspan="2"> <div class="text-right">'.'Rp '.'</div></th>
+                <th></th>
+            </tr>
+        ';
+        return $output;
+        // echo json_encode($output);
 	}
 
 
