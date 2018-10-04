@@ -162,7 +162,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel"><i class="fa fa-tag"></i> Detail Order</h4>
+          <h4 class="modal-title" id="myModalLabel"><i class="fa fa-tag"></i> Detail Order / <span id="lempar_kode"></span></h4>
       </div>
         <div class="modal-body">
         <div class="row" id="detail_order1">
@@ -176,7 +176,8 @@
               <th align="center"><center>Nama Jasa</center></th>
               <th align="center"><center>Harga</center></th>
               <th align="center"><center>Jumlah</center></th>
-              <th align="center"><center>Jumlah Harga / Rp.</center></th>
+              <th align="center"><center>Jumlah Harga</center></th>
+              <th align="center"><center>Status</center></th>
             </tr>
           </thead>
           <tbody id="detail_order2">
@@ -186,6 +187,8 @@
 
         </div>
         <div class="modal-footer">
+
+          <button class="btn btn_proses btn-success" type="button"><i class="fa fa-hand-stop-o"></i> Ambil cucian</button>
         </div>
       </form>
     </div>
@@ -220,8 +223,8 @@
                     $('#detail_cart').html(data);
                 }
             });
-        });
- 
+        }); 
+
         // Load shopping cart
         $('#detail_cart').load("<?php echo base_url('ControllerOrder/load_cart');?>");
  
@@ -298,16 +301,12 @@
               dataType : "JSON",
               data : {kd_order:kd_order},
               success: function(data){
+                $('#lempar_kode').text(kd_order);
 
                   var html = '';
                     var i;
                     no = 1;
                     for(i=0; i<data.length; i++){
-                      if(data[i].status == 0){
-                        var status = "Sedang Diproses";
-                      } else {
-                        var status = "Sudah Selesai";
-                      }
                         html += 
                         '<div class="col-md-6">'+
                         '<table style="table-layout:fixed" class="table table-bordered ">'+
@@ -343,11 +342,6 @@
                               '<td>:</td>'+
                               '<td>'+data[i].tgl_keluar+'</td>'+
                             '</tr>'+
-                            '<tr>'+
-                              '<td>Status</td>'+
-                              '<td>:</td>'+
-                              '<td>'+status+'</td>'+
-                            '</tr>'+
                           '</tbody>'+
                         '</table>'+
                       '</div>';
@@ -367,7 +361,7 @@
                           no = 1;
                           for(i=0; i<data.length; i++){
                             if(data[i].status == 0){
-                              var status = "Sedang Diproses";
+                              var status = "<p style='color:red;'>Sedang Diproses</p>";
                             } else {
                               var status = "Sudah Selesai";
                             }
@@ -379,6 +373,7 @@
                                   '<td><center>'+data[i].harga+'</center></td>'+
                                   '<td><center>'+data[i].satuan+'</center></td>'+
                                   '<td><center>'+data[i].jumlah+'</center></td>'+
+                                  '<td><center>'+status+'</center></td>'+
                                 '</tr>';
                               total = data[i].total;
                           }
@@ -386,10 +381,25 @@
                                 '<tr>'+
                                   '<td colspan="5"><center><b>TOTAL</b></center></td>'+
                                   '<td><center><b>'+total+'</b></center></td>'+
+                                  '<td></td>'+
                                 '</tr>';
                           $('#detail_order2').html(html);
 
                         }
+                      });
+
+                      $.ajax({
+                          url : "<?php echo base_url('ControllerOrder/validasi_ambil/');?>",
+                          method : "POST",
+                          dataType: "JSON",
+                          data : {kd_order : kd_order},
+                          success :function(data){
+                              if(data == "tidak"){
+                                $('.btn_proses').hide();
+                              } else {
+                                $('.btn_proses').show();
+                              } 
+                          }
                       });
 
                   $('#ModalOrderDetail').modal('show');
@@ -397,13 +407,6 @@
             });
             return false;
         });
-
-        //GET HAPUS
-        // $('#show_data').on('click','.order_hapus',function(){
-        //   var id = $(this).attr('data');
-        //   $('#ModalHapusOrder').modal('show');
-        //   $('[name="kode"]').val(id);
-        // });
 
         //Simpan jasa
         $('#btn_simpan').on('click',function(){
@@ -467,20 +470,26 @@
           return false;
         });
 
-        //Hapus Jasa
-        // $('#btn_hapus').on('click',function(){
-        //   var kd_jasa = $('#textkode').val();
-        //   $.ajax({
-        //     type : "POST",
-        //     url  : "<?php echo base_url('jasa/hapus')?>",
-        //     dataType : "JSON",
-        //     data : {kd_jasa: kd_jasa},
-        //     success: function(data){
-        //       $('#ModalHapusJasa').modal('hide');
-        //       tampil_data_order();
-        //     }
-        //   });
-        //   return false;
-        // });
+        //ambil cucian
+        $('.btn_proses').on('click',function(){
+          var kd_order = $('#lempar_kode').text();
+          $.ajax({
+            type : "POST",
+            url  : "<?php echo base_url('ControllerOrder/ambil')?>",
+            dataType : "JSON",
+            data : {kd_order: kd_order},
+            success: function(data){
+              $('#ModalOrderDetail').modal('hide');
+              tampil_data_order();
+              swal({
+                  title: "Berhasil Diproses",
+                  text: "",
+                  icon: "success",
+                  button: "Ok !",
+                });
+            }
+          });
+          return false;
+        });
     });
 </script> 

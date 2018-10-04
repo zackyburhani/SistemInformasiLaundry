@@ -12,7 +12,7 @@
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <label>Detail Order</label>
+          <a href="<?php echo site_url('order') ?>" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Kembali</a> 
         </div>
         <div class="panel-body">
           <table style="table-layout:fixed" class="table table-striped table-bordered table-hover" id="dataOrder">
@@ -103,7 +103,7 @@
                         <th align="center"><center>Hapus</center></th>
                       </tr>
                     </thead>
-                    <tbody id="detail_cart">
+                    <tbody id="detail_cart2">
                       
                     </tbody>
                   </table>
@@ -157,29 +157,30 @@
                 return false;
             }
 
-            $.ajax({
-                url : "<?php echo base_url('ControllerOrder/add_to_cart_ver2');?>",
-                method : "POST",
-                data : {kd_barang: kd_barang, item: item},
-                success: function(data){
-                    $('[name="item"]').val("");
-                    $('#detail_cart').html(data);
-                }
-            });
+                    $.ajax({
+                        url : "<?php echo base_url('ControllerOrder/add_to_cart_ver2');?>",
+                        method : "POST",
+                        data : {kd_barang: kd_barang, item: item},
+                        success: function(data){
+                            $('[name="item"]').val("");
+                            $('#detail_cart2').html(data);
+                        }
+                    });
+
         });
  
         // Load shopping cart
-        $('#detail_cart').load("<?php echo base_url('ControllerOrder/load_cart_ver2');?>");
+        $('#detail_cart2').load("<?php echo base_url('ControllerOrder/load_cart_ver2');?>");
  
         //Hapus Item Cart
-        $(document).on('click','.hapus_cart',function(){
+        $(document).on('click','.hapus_cart_ver2',function(){
             var row_id=$(this).attr("id"); //mengambil row_id dari artibut id
             $.ajax({
                 url : "<?php echo base_url('ControllerOrder/hapus_cart_ver2');?>",
                 method : "POST",
                 data : {row_id : row_id},
                 success :function(data){
-                    $('#detail_cart').html(data);
+                    $('#detail_cart2').html(data);
                 }
             });
         });
@@ -256,7 +257,7 @@
                   icon: "success",
                   button: "Ok !",
                 }).then(function() {
-                  $('#detail_cart').load('<?php echo base_url('order/destroy') ?>');
+                  $('#detail_cart2').load('<?php echo base_url('order/destroy') ?>');
               });
               $('#ModalOrderDetail').modal('hide');
               tampil_data_order();
@@ -266,7 +267,7 @@
         });
 
         $('.btn_tutup').on('click',function(){
-          $('#detail_cart').load('<?php echo base_url('order/destroy') ?>');
+          $('#detail_cart2').load('<?php echo base_url('order/destroy') ?>');
           $('#ModalOrderDetail').modal('hide');
           return false;
         });

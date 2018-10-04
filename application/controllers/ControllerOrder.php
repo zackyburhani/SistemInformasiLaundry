@@ -329,6 +329,7 @@ class ControllerOrder extends CI_Controller
         echo $this->show_cart_ver2(); //tampilkan cart setelah added
     }
 
+
     function show_cart_ver2(){ //Fungsi untuk menampilkan Cart
         $output = '';
         $no = 0;
@@ -341,7 +342,7 @@ class ControllerOrder extends CI_Controller
                     <td>'.$items['name'].'</td>
                     <td align="center">'.$items['price'].'</td>
                     <td align="center">'.$items['qty'].'</td> 
-                    <td align="center"><button type="button" id="'.$items['rowid'].'" class="hapus_cart btn btn-danger btn-md"><i class="glyphicon glyphicon-trash"></i></button></td>
+                    <td align="center"><button type="button" id="'.$items['rowid'].'" class="hapus_cart_ver2 btn btn-danger btn-md"><i class="glyphicon glyphicon-trash"></i></button></td>
                 </tr>
             ';
         }
@@ -360,7 +361,7 @@ class ControllerOrder extends CI_Controller
             'qty' => 0, 
         );
         $this->cart->update($data);
-        echo $this->show_cart();
+        echo $this->show_cart_ver2();
     }
 
     function load_detail_ver2(){ 
@@ -398,18 +399,37 @@ class ControllerOrder extends CI_Controller
 			'stok' => $stok
 		];
 
-		$data3 = [
-			'status' => '1'
-		];
-
 		$update = $this->Model->update_status($kd_jasa,$kd_pelanggan);
 
 		$result = $this->Model->simpan('detail_barang',$data);
 
 		$result2 = $this->Model->update('kd_barang',$kd_barang,$data2,'barang');
 
-		$result2 = $this->Model->update('kd_order',$kd_order,$data3,'order_pesanan');		
-
 		echo json_encode($result);
 	}
+
+	function validasi_ambil()
+	{
+		$kd_order = $this->input->post('kd_order');
+		$status1 = $this->Model->getJoinDetail_ID_validasi($kd_order);
+		$status0 = $this->Model->getJoinDetail_ID($kd_order);
+		
+		if(count($status0) == count($status1)){
+			echo json_encode("sama");
+		} else {
+			echo json_encode("tidak");
+		}
+	}
+
+	function ambil()
+	{
+		$kd_order = $this->input->post('kd_order');
+		$data = [
+			'status' => '1'
+		];
+		$result2 = $this->Model->update('kd_order',$kd_order,$data,'order_pesanan');
+
+		echo json_encode($result2);
+	}
+
 }
