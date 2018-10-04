@@ -109,6 +109,25 @@ class Model extends CI_Model {
 		return $check;
 	}
 
+	public function getJoinJasa_ID($kd_jasa,$kd_order)
+	{
+		$check = false;
+		try{
+			$query = $this->db->query("
+				SELECT *,
+					(SELECT sum(jumlah) FROM detail_order JOIN pelanggan ON pelanggan.kd_pelanggan = detail_order.kd_pelanggan JOIN order_pesanan ON order_pesanan.kd_pelanggan = pelanggan.kd_pelanggan WHERE order_pesanan.kd_order = '$kd_order') as total 
+				FROM pelanggan
+					JOIN order_pesanan ON pelanggan.kd_pelanggan = order_pesanan.kd_pelanggan
+					JOIN detail_order ON pelanggan.kd_pelanggan = detail_order.kd_pelanggan
+					JOIN jasa ON detail_order.kd_jasa = jasa.kd_jasa
+				WHERE order_pesanan.status = '0' AND order_pesanan.kd_order = '$kd_order' AND jasa.kd_jasa = '$kd_jasa'");
+			return $query->result();
+		}catch (Exception $ex) {
+			$check = false;
+		}
+		return $check;
+	}
+
 	//detail berdasarkan id
 	public function getJoinDetail_ID($kd_order)
 	{
@@ -123,6 +142,26 @@ class Model extends CI_Model {
 					JOIN jasa ON detail_order.kd_jasa = jasa.kd_jasa
 				WHERE order_pesanan.status = '0' AND order_pesanan.kd_order = '$kd_order'");
 			return $query->result();
+		}catch (Exception $ex) {
+			$check = false;
+		}
+		return $check;
+	}
+
+	//fetch
+	public function getJoinDetail_ID_fetch($kd_order)
+	{
+		$check = false;
+		try{
+			$query = $this->db->query("
+				SELECT *,
+					(SELECT sum(jumlah) FROM detail_order JOIN pelanggan ON pelanggan.kd_pelanggan = detail_order.kd_pelanggan JOIN order_pesanan ON order_pesanan.kd_pelanggan = pelanggan.kd_pelanggan WHERE order_pesanan.kd_order = '$kd_order') as total 
+				FROM pelanggan
+					JOIN order_pesanan ON pelanggan.kd_pelanggan = order_pesanan.kd_pelanggan
+					JOIN detail_order ON pelanggan.kd_pelanggan = detail_order.kd_pelanggan
+					JOIN jasa ON detail_order.kd_jasa = jasa.kd_jasa
+				WHERE order_pesanan.status = '0' AND order_pesanan.kd_order = '$kd_order'");
+			return $query->row();
 		}catch (Exception $ex) {
 			$check = false;
 		}

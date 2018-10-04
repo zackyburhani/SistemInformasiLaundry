@@ -1,75 +1,12 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Data Order
+      Data Proses / <span id="lempar_kode"><?php echo $kd_order ?></span>
       <small></small>
     </h1>
   </section>
 
   <section class="content">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <label>Tambah Data Order</label>
-          </div>
-          <div class="panel-body">
-            <div class="col-md-12">
-              <form class="form-horizontal">
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-md-1">
-                    <label class="control-label">Jasa</label>
-                  </div>
-                  <div class="col-md-4">
-                    <select class="form-control select2" name="nm_jasa" id="kd_jasa_id">
-                      <?php foreach($jasa as $jas){ ?>
-                        <option value="<?php echo $jas->kd_jasa ?>"><?php echo $jas->nm_jasa ?></option>
-                      <?php } ?>
-                    </select>
-                  </div>
-                  <div class="col-md-1">
-                    <label class="control-label">Kilogram</label>
-                  </div>
-                  <div class="col-md-3">
-                    <input type="number" name="qty" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" min="1" required class="form-control" id="qty_id">
-                  </div>
-                  <div class="col-md-3">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <button class="btn btn-primary btn-md add_cart" type="button"><span class="fa fa-plus"></span> Tambah Data</button>
-                      </div>
-                      <div class="col-md-6"> 
-                        <button type="button" id="tambahOrder" data-target="#ModalTambahOrder" data-toggle="modal" class="btn btn-success btn-md btn-block" ><span class="fa fa-sign-out"></span> Proses</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-              
-          <table style="table-layout:fixed" class="table table-striped table-bordered table-hover">
-            <thead>
-              <tr>
-                <th align="center" width="50px">No. </th>
-                <th align="center"><center>Kode Jasa</center></th>
-                <th align="center"><center>Nama Jasa</center></th>
-                <th align="center"><center>Harga</center></th>
-                <th align="center"><center>Jumlah / Kg</center></th>
-                <th align="center"><center>Jumlah Harga</center></th>
-                <th align="center"><center>Hapus</center></th>
-              </tr>
-            </thead>
-            <tbody id="detail_cart">
-              
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
 
   <div class="row">
     <div class="col-lg-12">
@@ -82,10 +19,11 @@
             <thead>
               <tr>
                 <th width="20px">No. </th>
-                <th width="80px"><center>Kode Order</center></th>
-                <th width="80px"><center>Tanggal Masuk</center></th>
-                <th width="80px"> <center>Tanggal Keluar</center> </th>
-                <th width="100px"> <center>Nama Pelanggan</center> </th>
+                <th width="80px"><center>Kode Jasa</center></th>
+                <th width="80px"><center>Nama Jasa</center></th>
+                <th width="80px"> <center>Harga</center> </th>
+                <th width="100px"> <center>Satuan</center> </th>
+                <th width="100px"> <center>Jumlah</center> </th>
                 <th width="100px"> <center>Action</center> </th>
               </tr>
             </thead>
@@ -162,7 +100,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel"><i class="fa fa-tag"></i> Detail Order</h4>
+          <h4 class="modal-title" id="myModalLabel"><i class="fa fa-gear"></i> Proses Cucian</h4>
       </div>
         <div class="modal-body">
         <div class="row" id="detail_order1">
@@ -243,13 +181,16 @@
         $('#dataOrder').dataTable();
 
         //fungsi tampil jasa
-        function tampil_data_order(){ 
+        function tampil_data_order(){
+        var kode_lempar = $('#lempar_kode').text();
             $.ajax({
-                type  : 'ajax',
-                url   : "<?php echo base_url('order/data_order')?>",
+                type  : 'GET',
+                url   : "<?php echo base_url('order/get_detail_order')?>",
                 async : false,
                 dataType : 'json',
+                data: {kd_order:kode_lempar},
                 success : function(data){
+                    console.log(data);
                     var html = '';
                     var i;
                     no = 1;
@@ -257,14 +198,13 @@
                         html += 
                         '<tr>'+
                             '<td align="center">'+ no++ +'.'+'</td>'+
-                            '<td align="center">'+data[i].kd_order+'</td>'+
-                            '<td align="center">'+data[i].tgl_masuk+'</td>'+
-                            '<td align="center">'+data[i].tgl_keluar+'</td>'+
-                            '<td align="center">'+data[i].nm_pelanggan+'</td>'+
+                            '<td align="center">'+data[i].kd_jasa+'</td>'+
+                            '<td align="center">'+data[i].nm_jasa+'</td>'+
+                            '<td align="center">'+data[i].harga+'</td>'+
+                            '<td align="center">'+data[i].satuan+'</td>'+
+                            '<td align="center">'+data[i].jumlah+'</td>'+
                             '<td style="text-align:center;">'+
-                              '<button data-target="javascript:;" class="btn btn-info order_detail" data="'+data[i].kd_order+'"><span class="fa fa-folder-open"></span></button>'+' '+
-                              '<a href="<?php echo site_url('order/cetak/') ?>'+data[i].kd_order+'" target="_blank" class="btn btn-primary"><span class="fa fa-file-pdf-o"></span></a>'+' '+ 
-                              '<a href="<?php echo site_url('order/proses/') ?>'+data[i].kd_order+'" class="btn btn-success order_proses" data="'+data[i].kd_order+'"><span class="fa fa-gears"></span></a>'+ 
+                              '<button data-target="javascript:;" class="btn btn-danger order_detail" data="'+data[i].kd_jasa+'"><span class="fa fa-gear"></span> Proses Cucian</button>'+' '+
                             '</td>'+
                         '</tr>';
                     }
@@ -289,108 +229,86 @@
             return false;
         });
 
-        //GET UPDATE
         $('#show_data').on('click','.order_detail',function(){
-          var kd_order = $(this).attr('data');
+          var kd_jasa = $(this).attr('data');
+          var kd_order = $('#lempar_kode').text();
             $.ajax({
               type : "GET",
-              url  : "<?php echo base_url('order/get_order')?>",
+              url  : "<?php echo base_url('ControllerOrder/get_jasa')?>",
               dataType : "JSON",
-              data : {kd_order:kd_order},
+              data : {kd_jasa:kd_jasa, kd_order:kd_order},
               success: function(data){
-
+      
                   var html = '';
                     var i;
                     no = 1;
                     for(i=0; i<data.length; i++){
-                      if(data[i].status == 0){
-                        var status = "Sedang Diproses";
-                      } else {
-                        var status = "Sudah Selesai";
-                      }
-                        html += 
-                        '<div class="col-md-6">'+
-                        '<table style="table-layout:fixed" class="table table-bordered ">'+
-                          '<tbody>'+
-                            '<tr>'+
-                              '<td style="width: 100px">Nama</td>'+
-                              '<td style="width: 10px">:</td>'+
-                              '<td>'+data[i].nm_pelanggan+'</td>'+
-                            '</tr>'+
-                            '<tr>'+
-                              '<td>Telepon</td>'+
-                              '<td>:</td>'+
-                              '<td>'+data[i].no_telp+'</td>'+
-                            '</tr>'+
-                            '<tr>'+
-                              '<td>Alamat</td>'+
-                              '<td>:</td>'+
-                              '<td>'+data[i].alamat+'</td>'+
-                            '</tr>'+
-                          '</tbody>'+
-                        '</table>'+
+                      html +=
+                        '<div class="col-lg-12">'+
+                          '<div class="panel panel-default">'+
+                            '<div class="panel-heading">'+
+                              '<label>Tambah Data Order</label>'+
+                            '</div>'+
+                            '<div class="panel-body">'+
+                              '<div class="col-md-12">'+
+                                '<form class="form-horizontal">'+
+                                '<div class="form-group">'+
+                                  '<div class="row">'+
+                                    '<div class="col-md-1">'+
+                                      '<label class="control-label">Jasa</label>'+
+                                    '</div>'+
+                                    '<div class="col-md-4">'+
+                                      '<select class="form-control select2" name="nm_jasa" id="kd_jasa_id">'+
+                                        '<?php foreach($barang as $brg){ ?>'+
+                                          '<option value="<?php echo $brg->kd_barang ?>">'+
+                                            '<?php echo $brg->nm_barang ?>'+
+                                          '</option>'+
+                                        '<?php } ?>'+
+                                      '</select>'+
+                                    '</div>'+
+                                    '<div class="col-md-1">'+
+                                      '<label class="control-label">Kilogram</label>'+
+                                    '</div>'+
+                                    '<div class="col-md-3">'+
+                                      '<input type="number" name="qty" oninput="this.value = this.value.replace(/[^0-9.]/g, '+').replace(/(\..*)\./g, '+'$1'+');" min="1" required class="form-control" id="qty_id">'+
+                                    '</div>'+
+                                    '<div class="col-md-3">'+
+                                      '<div class="row">'+
+                                        '<div class="col-md-6">'+
+                                          '<button class="btn btn-primary btn-md add_cart" type="button"><span class="fa fa-plus"></span> Tambah Data</button>'+
+                                        '</div>'+
+                                        '<div class="col-md-6">'+
+                                          '<button type="button" id="tambahOrder" data-target="#ModalTambahOrder" data-toggle="modal" class="btn btn-success btn-md btn-block" ><span class="fa fa-sign-out"></span> Proses</button>'+
+                                        '</div>'+
+                                      '</div>'+
+                                    '</div>'+
+                                  '</div>'+
+                                '</div>'+
+                              '</form>'+
+                            '</div>'+
+                                
+                            '<table style="table-layout:fixed" class="table table-striped table-bordered table-hover">'+
+                              '<thead>'+
+                                '<tr>'+
+                                  '<th align="center" width="50px">No. </th>'+
+                                  '<th align="center"><center>Kode Jasa</center></th>'+
+                                  '<th align="center"><center>Nama Jasa</center></th>'+
+                                  '<th align="center"><center>Harga</center></th>'+
+                                  '<th align="center"><center>Jumlah / Kg</center></th>'+
+                                  '<th align="center"><center>Jumlah Harga</center></th>'+
+                                  '<th align="center"><center>Hapus</center></th>'+
+                                '</tr>'+
+                              '</thead>'+
+                              '<tbody id="detail_cart">'+
+                                
+                              '</tbody>'+
+                            '</table>'+
+                          '</div>'+
                         '</div>'+
-                        '<div class="col-md-6">'+
-                          '<table style="table-layout:fixed" class="table table-bordered ">'+
-                          '<tbody>'+
-                            '<tr>'+
-                              '<td style="width: 150px">Tanggal Masuk</td>'+
-                              '<td style="width: 10px">:</td>'+
-                              '<td>'+data[i].tgl_masuk+'</td>'+
-                            '</tr>'+
-                            '<tr>'+
-                              '<td>Tanggal Keluar</td>'+
-                              '<td>:</td>'+
-                              '<td>'+data[i].tgl_keluar+'</td>'+
-                            '</tr>'+
-                            '<tr>'+
-                              '<td>Status</td>'+
-                              '<td>:</td>'+
-                              '<td>'+status+'</td>'+
-                            '</tr>'+
-                          '</tbody>'+
-                        '</table>'+
-                      '</div>';
+                    '</div>'; 
+                        
                     }
                     $('#detail_order1').html(html);
-
-
-                    $.ajax({
-                        type : "GET",
-                        url  : "<?php echo base_url('order/get_detail_order')?>",
-                        dataType : "JSON",
-                        data : {kd_order:kd_order},
-                        success: function(data){
-                          var html = '';
-                          var total = '';
-                          var i;
-                          no = 1;
-                          for(i=0; i<data.length; i++){
-                            if(data[i].status == 0){
-                              var status = "Sedang Diproses";
-                            } else {
-                              var status = "Sudah Selesai";
-                            }
-                              html += 
-                                '<tr>'+
-                                  '<td><center>'+no++ +'.'+'</center></td>'+
-                                  '<td><center>'+data[i].kd_jasa+'</center></td>'+
-                                  '<td><center>'+data[i].nm_jasa+'</center></td>'+
-                                  '<td><center>'+data[i].harga+'</center></td>'+
-                                  '<td><center>'+data[i].satuan+'</center></td>'+
-                                  '<td><center>'+data[i].jumlah+'</center></td>'+
-                                '</tr>';
-                              total = data[i].total;
-                          }
-                          html +=
-                                '<tr>'+
-                                  '<td colspan="5"><center><b>TOTAL</b></center></td>'+
-                                  '<td><center><b>'+total+'</b></center></td>'+
-                                '</tr>';
-                          $('#detail_order2').html(html);
-
-                        }
-                      });
 
                   $('#ModalOrderDetail').modal('show');
               }

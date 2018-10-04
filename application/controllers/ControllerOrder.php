@@ -165,6 +165,14 @@ class ControllerOrder extends CI_Controller
 		echo json_encode($data);
 	}
 
+	function get_jasa()
+	{
+		$kd_jasa = $this->input->get('kd_jasa');
+		$kd_order = $this->input->get('kd_order');
+		$data = $this->Model->getJoinJasa_ID($kd_jasa,$kd_order);
+		echo json_encode($data);
+	}
+
 	function get_detail_order()
 	{
 		$kd_order = $this->input->get('kd_order');
@@ -172,11 +180,20 @@ class ControllerOrder extends CI_Controller
 		echo json_encode($data);
 	}
 
-	public function cetak()
+	function proses($kd_order)
+	{
+		$data = [
+			'barang' => $this->Model->getAll('barang'),
+			'kd_order' => $kd_order
+		];
+		$this->load->view('template/v_header');
+		$this->load->view('template/v_sidebar');
+		$this->load->view('v_proses',$data);
+		$this->load->view('template/v_footer');
+	}
+
+	public function cetak($kd_order)
     {
-
-    	$kd_order = $this->input->post('kd_order');
-
         $pdf = new FPDF('P','mm','A4');
         // membuat halaman baru
         $pdf->AddPage();
@@ -202,16 +219,41 @@ class ControllerOrder extends CI_Controller
             
         $pdf->ln(6);        
         $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(190,10,'LAPORAN PENGIRIMAN BARANG PERIODE '.' SAMPAI ',0,1,'C');
+        $pdf->Cell(190,10,'Detail Transaksi',0,1,'C');
         
         $pdf->Cell(10,-1,'',0,1);
 
         $pemesanan = $this->Model->getJoinDetail_ID($kd_order);
 
-        // if($pemesanan == null) {
-        //     $this->session->set_flashdata('pesanGagal','Data Tidak Ditemukan');
-        // 	redirect('LaporanPengiriman');
-        // }
+        $pemesanan_fetch = $this->Model->getJoinDetail_ID_fetch($kd_order);
+
+        $pdf->SetFont('Arial','',9);
+
+        $pdf->Cell(25,6,'Kode Order',0,0,'L');
+        $pdf->Cell(5,6,':',0,0,'C');
+        $pdf->Cell(40,6,''.$pemesanan_fetch->kd_order,0,0,'L');
+        
+        $pdf->Cell(65,6,'',0,0,'C');
+        $pdf->Cell(30,6,'Tanggal Masuk',0,0,'L');
+        $pdf->Cell(5,6,':',0,0,'C');
+        $pdf->Cell(20,6,''.$pemesanan_fetch->tgl_masuk,0,1,'L');
+
+        $pdf->Cell(25,6,'Pelanggan',0,0,'L');
+        $pdf->Cell(5,6,':',0,0,'C');
+        $pdf->Cell(40,6,''.$pemesanan_fetch->nm_pelanggan,0,0,'L');
+        
+        $pdf->Cell(65,6,'',0,0,'C');
+        $pdf->Cell(30,6,'Tanggal Keluar',0,0,'L');
+        $pdf->Cell(5,6,':',0,0,'C');
+        $pdf->Cell(20,6,''.$pemesanan_fetch->tgl_keluar,0,1,'L');
+
+		$pdf->Cell(25,6,'Telepon',0,0,'L');
+        $pdf->Cell(5,6,':',0,0,'C');
+        $pdf->Cell(40,6,''.$pemesanan_fetch->no_telp,0,1,'L');
+
+        $pdf->Cell(25,6,'Alamat',0,0,'L');
+        $pdf->Cell(5,6,':',0,0,'C');
+        $pdf->Cell(40,6,''.$pemesanan_fetch->alamat,0,1,'L');
 
         $pdf->Cell(190,5,' ',0,1,'C');
         // Memberikan space kebawah agar tidak terlalu rapat
@@ -219,10 +261,10 @@ class ControllerOrder extends CI_Controller
         $pdf->SetFont('Arial','B',8);
         $pdf->Cell(10,6,'No.',1,0,'C');
         $pdf->Cell(40,6,'Kode Jasa',1,0,'C');
-        $pdf->Cell(40,6,'Nama Jasa',1,0,'C');
-        $pdf->Cell(33,6,'Harga',1,0,'C');
-        $pdf->Cell(33,6,'Jumlah',1,0,'C');
-        $pdf->Cell(33,6,'Jumlah Harga',1,0,'C');
+        $pdf->Cell(60,6,'Nama Jasa',1,0,'C');
+        $pdf->Cell(20,6,'Harga',1,0,'C');
+        $pdf->Cell(20,6,'Jumlah',1,0,'C');
+        $pdf->Cell(40,6,'Jumlah Harga',1,1,'C');
         $pdf->SetFont('Arial','',8);
 
         $tampung = array();
@@ -230,12 +272,32 @@ class ControllerOrder extends CI_Controller
         foreach ($pemesanan as $row)
         {
             $pdf->Cell(10,6,$no++.".",1,0,'C');
-            $pdf->Cell(25,6,$row->kd_order,1,0,'C');
-            $pdf->Cell(25,6,tanggal($row->nm_jasa),1,0,'C');
-            $pdf->Cell(55,6,ucwords($row->harga),1,0,'C');
-            $pdf->Cell(30,6,ucwords($row->satuan),1,0,'C');
-            $pdf->Cell(20,6,ucwords($row->jumlah),1,0,'C');
+            $pdf->Cell(40,6,$row->kd_jasa,1,0,'C');
+            $pdf->Cell(60,6,ucwords($row->nm_jasa),1,0,'C');
+            $pdf->Cell(20,6,number_format($row->harga,2,',','.'),1,0,'C');
+            $pdf->Cell(20,6,$row->satuan,1,0,'C');
+            $pdf->Cell(40,6,number_format($row->jumlah,2,',','.'),1,1,'C');   
+        	$tampung[] = $row->jumlah;
         }
+
+       
+        $pdf->SetFont('Arial','B',8);
+        $pdf->Cell(150,6,'Total Harga',1,0,'C');
+        $pdf->Cell(40,6,'Rp. '.number_format(array_sum($tampung),2,',','.'),1,1,'C');
+        $pdf->SetFont('Arial','',8);
+        
+        $pdf->Cell(10,20,'',0,1);
+        $pdf->SetFont('Arial','B',8);
+        $pdf->Cell(63,6,'',0,0,'C');
+        $pdf->Cell(63,6,'',0,0,'C');
+        $pdf->Cell(63,6,'Hormat Kami',0,1,'C');
+
+        $pdf->Cell(10,20,'',0,1);
+
+        $pdf->Cell(63,6,'',0,0,'C');
+        $pdf->Cell(63,6,'',0,0,'C');
+        $pdf->Cell(63,6,'( Admininstrator )',0,0,'C');
+        
 
         $pdf->Output();
     }
