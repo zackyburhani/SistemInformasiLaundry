@@ -1,7 +1,7 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Data Proses / <span id="lempar_kode"><?php echo $kd_order ?></span>
+      Data Proses / <span id="lempar_kode"><?php echo $kd_order ?></span> / <span id="lempar_plg"><?php echo $kd_pelanggan ?></span>
       <small></small>
     </h1>
   </section>
@@ -38,92 +38,83 @@
 </section>
 </div>
 
-<!-- MODAL ADD -->
-<div class="modal fade" id="ModalTambahOrder" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 class="modal-title" id="myModalLabel">Tambah Order</h3>
-      </div>
-      <form class="form-horizontal">
-        <div class="modal-body">
-
-          <div class="form-group">
-            <label class="control-label col-xs-3" >Kode Order</label>
-            <div class="col-xs-9">
-              <input name="kd_order" id="kd_order_id" readonly class="form-control" type="text" placeholder="Kode Order" style="width:335px;" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="control-label col-xs-3" >Tanggal Masuk</label>
-            <div class="col-xs-9">
-              <input name="tgl_masuk" id="tgl_masuk_id" class="form-control" type="date" style="width:335px;" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="control-label col-xs-3" >Tanggal Keluar</label>
-            <div class="col-xs-9">
-              <input name="tgl_keluar" id="tgl_keluar_id" class="form-control" type="date" style="width:335px;" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="control-label col-xs-3">Nama Pelanggan</label>
-            <div class="col-xs-9">  
-              <select class="form-control select2" data-placeholder="Nama Pelanggan" name="kd_pelanggan" id="kd_pelanggan_id" style="width: 80%;">
-                <option value=""></option>
-                <?php foreach($pelanggan as $plg){ ?>
-                  <option value="<?php echo $plg->kd_pelanggan ?>"><?php echo $plg->nm_pelanggan ?></option>
-                <?php } ?>
-              </select>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-success" id="btn_simpan">Simpan</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!--END MODAL ADD-->  
+<style type="text/css">
+  .modal-header .close {
+  display:none;
+}
+</style>
 
 <!-- MODAL DETAIL -->
-<div class="modal fade" id="ModalOrderDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalOrderDetail" data-backdrop="static" data-keyboard="false" class="close" style=".close{display: none;}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel"><i class="fa fa-gear"></i> Proses Cucian</h4>
+          <h4 class="modal-title" id="myModalLabel"><i class="fa fa-gear"></i> Proses Cucian / <span id="kode_jasa"></span></h4>
       </div>
         <div class="modal-body">
-        <div class="row" id="detail_order1">
-          
-        </div>
-        <table style="table-layout:fixed" class="table table-striped table-bordered table-hover">
-          <thead>
-            <tr>
-              <th align="center" width="50px">No. </th>
-              <th align="center"><center>Kode Jasa</center></th>
-              <th align="center"><center>Nama Jasa</center></th>
-              <th align="center"><center>Harga</center></th>
-              <th align="center"><center>Jumlah</center></th>
-              <th align="center"><center>Jumlah Harga / Rp.</center></th>
-            </tr>
-          </thead>
-          <tbody id="detail_order2">
-            
-          </tbody>
-        </table>
-
+          <div class="row">
+             <div class="col-lg-12">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <label>Tambah Data Order</label>
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-md-12">
+                      <form class="form-horizontal">
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-1">
+                            <label class="control-label">Jasa</label>
+                          </div>
+                          <div class="col-md-4">
+                            <select class="form-control select2" name="nm_barang" style="width: 100%;" id="kd_barang_id">
+                              <?php foreach($barang as $brg){ ?>
+                                <option value="<?php echo $brg->kd_barang ?>"><?php echo $brg->nm_barang ?></option>
+                              <?php } ?>
+                            </select>
+                          </div>
+                          <div class="col-md-1">
+                            <label class="control-label">Item</label>
+                          </div>
+                          <div class="col-md-3">
+                            <input type="number" name="item" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" min="1" required class="form-control" id="item_id">
+                          </div>
+                          <div class="col-md-3">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <button class="btn btn-block btn-primary btn-md add_cart_ver2" type="button"><span class="fa fa-plus"></span> Tambah Data</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                      
+                  <table style="table-layout:fixed" class="table table-striped table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th align="center" width="50px">No. </th>
+                        <th align="center"><center>Kode Barang</center></th>
+                        <th align="center"><center>Nama Barang</center></th>
+                        <th align="center"><center>Stok</center></th>
+                        <th align="center"><center>Jumlah / Item</center></th>
+                        <th align="center"><center>Hapus</center></th>
+                      </tr>
+                    </thead>
+                    <tbody id="detail_cart">
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
+          <button class="btn btn_tutup">Tutup</button>
+          <button class="btn btn-success" id="btn_simpan">Simpan</button>
         </div>
       </form>
     </div>
@@ -134,13 +125,30 @@
   <script type="text/javascript">
     $(document).ready(function(){
 
-        $('.add_cart').click(function(e){
-            var kd_jasa = $("#kd_jasa_id").val();
-            var qty = $("#qty_id").val();
-            
-             if (qty == "") {
+        $('#show_data').on('click','.order_detail',function(){
+          var kd_jasa = $(this).attr('data');
+          var kd_order = $('#lempar_kode').text();
+            $.ajax({
+              type : "GET",
+              url  : "<?php echo base_url('ControllerOrder/get_jasa')?>",
+              dataType : "JSON",
+              data : {kd_jasa:kd_jasa, kd_order:kd_order},
+              success: function(data){
+                  $("#kode_jasa").text(kd_jasa);
+                  $('#ModalOrderDetail').modal('show');
+              }
+            });
+            return false;
+        });
+
+
+        $('.add_cart_ver2').click(function(e){
+            var kd_barang = $("#kd_barang_id").val();
+            var item = $("#item_id").val();
+
+             if (item == "") {
                 swal({
-                  title: "Kilogram Harus Diisi",
+                  title: "Item Harus Diisi",
                   text: "",
                   icon: "error",
                   button: "Ok !",
@@ -150,24 +158,24 @@
             }
 
             $.ajax({
-                url : "<?php echo base_url('ControllerOrder/add_to_cart');?>",
+                url : "<?php echo base_url('ControllerOrder/add_to_cart_ver2');?>",
                 method : "POST",
-                data : {kd_jasa: kd_jasa, qty: qty},
+                data : {kd_barang: kd_barang, item: item},
                 success: function(data){
-                    $('[name="qty"]').val("");
+                    $('[name="item"]').val("");
                     $('#detail_cart').html(data);
                 }
             });
         });
  
         // Load shopping cart
-        $('#detail_cart').load("<?php echo base_url('ControllerOrder/load_cart');?>");
+        $('#detail_cart').load("<?php echo base_url('ControllerOrder/load_cart_ver2');?>");
  
         //Hapus Item Cart
         $(document).on('click','.hapus_cart',function(){
             var row_id=$(this).attr("id"); //mengambil row_id dari artibut id
             $.ajax({
-                url : "<?php echo base_url('ControllerOrder/hapus_cart');?>",
+                url : "<?php echo base_url('ControllerOrder/hapus_cart_ver2');?>",
                 method : "POST",
                 data : {row_id : row_id},
                 success :function(data){
@@ -183,14 +191,14 @@
         //fungsi tampil jasa
         function tampil_data_order(){
         var kode_lempar = $('#lempar_kode').text();
+        var kode_plg = $('#lempar_plg').text();
             $.ajax({
                 type  : 'GET',
-                url   : "<?php echo base_url('order/get_detail_order')?>",
+                url   : "<?php echo base_url('ControllerOrder/get_detail_order_ver2')?>",
                 async : false,
                 dataType : 'json',
-                data: {kd_order:kode_lempar},
+                data: {kd_order:kode_lempar,kd_pelanggan:kode_plg},
                 success : function(data){
-                    console.log(data);
                     var html = '';
                     var i;
                     no = 1;
@@ -213,192 +221,55 @@
             });
         }
 
-        //get Kode
-        $("#tambahOrder").click(function(){ 
-            $.ajax({
-              type : "GET",
-              url  : "<?php echo base_url('order/getKode')?>",
-              dataType : "JSON",
-              success: function(data){
-                $.each(data,function(kd_order){
-                  $('#ModalTambahOrder').modal('show');
-                  $('[name="kd_order"]').val(data.kd_order);
-                });
-              }
-            });
-            return false;
-        });
-
-        $('#show_data').on('click','.order_detail',function(){
-          var kd_jasa = $(this).attr('data');
-          var kd_order = $('#lempar_kode').text();
-            $.ajax({
-              type : "GET",
-              url  : "<?php echo base_url('ControllerOrder/get_jasa')?>",
-              dataType : "JSON",
-              data : {kd_jasa:kd_jasa, kd_order:kd_order},
-              success: function(data){
-      
-                  var html = '';
-                    var i;
-                    no = 1;
-                    for(i=0; i<data.length; i++){
-                      html +=
-                        '<div class="col-lg-12">'+
-                          '<div class="panel panel-default">'+
-                            '<div class="panel-heading">'+
-                              '<label>Tambah Data Order</label>'+
-                            '</div>'+
-                            '<div class="panel-body">'+
-                              '<div class="col-md-12">'+
-                                '<form class="form-horizontal">'+
-                                '<div class="form-group">'+
-                                  '<div class="row">'+
-                                    '<div class="col-md-1">'+
-                                      '<label class="control-label">Jasa</label>'+
-                                    '</div>'+
-                                    '<div class="col-md-4">'+
-                                      '<select class="form-control select2" name="nm_jasa" id="kd_jasa_id">'+
-                                        '<?php foreach($barang as $brg){ ?>'+
-                                          '<option value="<?php echo $brg->kd_barang ?>">'+
-                                            '<?php echo $brg->nm_barang ?>'+
-                                          '</option>'+
-                                        '<?php } ?>'+
-                                      '</select>'+
-                                    '</div>'+
-                                    '<div class="col-md-1">'+
-                                      '<label class="control-label">Kilogram</label>'+
-                                    '</div>'+
-                                    '<div class="col-md-3">'+
-                                      '<input type="number" name="qty" oninput="this.value = this.value.replace(/[^0-9.]/g, '+').replace(/(\..*)\./g, '+'$1'+');" min="1" required class="form-control" id="qty_id">'+
-                                    '</div>'+
-                                    '<div class="col-md-3">'+
-                                      '<div class="row">'+
-                                        '<div class="col-md-6">'+
-                                          '<button class="btn btn-primary btn-md add_cart" type="button"><span class="fa fa-plus"></span> Tambah Data</button>'+
-                                        '</div>'+
-                                        '<div class="col-md-6">'+
-                                          '<button type="button" id="tambahOrder" data-target="#ModalTambahOrder" data-toggle="modal" class="btn btn-success btn-md btn-block" ><span class="fa fa-sign-out"></span> Proses</button>'+
-                                        '</div>'+
-                                      '</div>'+
-                                    '</div>'+
-                                  '</div>'+
-                                '</div>'+
-                              '</form>'+
-                            '</div>'+
-                                
-                            '<table style="table-layout:fixed" class="table table-striped table-bordered table-hover">'+
-                              '<thead>'+
-                                '<tr>'+
-                                  '<th align="center" width="50px">No. </th>'+
-                                  '<th align="center"><center>Kode Jasa</center></th>'+
-                                  '<th align="center"><center>Nama Jasa</center></th>'+
-                                  '<th align="center"><center>Harga</center></th>'+
-                                  '<th align="center"><center>Jumlah / Kg</center></th>'+
-                                  '<th align="center"><center>Jumlah Harga</center></th>'+
-                                  '<th align="center"><center>Hapus</center></th>'+
-                                '</tr>'+
-                              '</thead>'+
-                              '<tbody id="detail_cart">'+
-                                
-                              '</tbody>'+
-                            '</table>'+
-                          '</div>'+
-                        '</div>'+
-                    '</div>'; 
-                        
-                    }
-                    $('#detail_order1').html(html);
-
-                  $('#ModalOrderDetail').modal('show');
-              }
-            });
-            return false;
-        });
-
-        //GET HAPUS
-        // $('#show_data').on('click','.order_hapus',function(){
-        //   var id = $(this).attr('data');
-        //   $('#ModalHapusOrder').modal('show');
-        //   $('[name="kode"]').val(id);
-        // });
-
         //Simpan jasa
         $('#btn_simpan').on('click',function(){
-          var kd_order = $('#kd_order_id').val();
-          var tgl_masuk = $('#tgl_masuk_id').val();
-          var tgl_keluar = $('#tgl_keluar_id').val();
-          var kd_pelanggan = $('#kd_pelanggan_id').val();
-
-          if(tgl_masuk > tgl_keluar){
-            alert('tidak valid');
-            return false
-          }
-
+          
           $.ajax({
             type : "POST",
-            url  : "<?php echo base_url('order/simpan')?>",
+            url  : "<?php echo base_url('ControllerOrder/load_detail_ver2')?>",
             dataType : "JSON",
-            data : {kd_order:kd_order, tgl_masuk:tgl_masuk, tgl_keluar:tgl_keluar, kd_pelanggan:kd_pelanggan},
             success: function(data){
-              $('[name="kd_order"]').val("");
-              $('[name="tgl_masuk"]').val("");
-              $('[name="tgl_keluar"]').val("");
-              $('[name="kd_pelanggan"]').val("");
-              $('#ModalTambahOrder').modal('hide');
+
+              var kd_order = $('#lempar_kode').text();
+              var kd_jasa = $("#kode_jasa").text();
+              var kd_pelanggan = $('#lempar_plg').text();
               
+              $.each(data,function(index,objek){
+                var kd_barang = objek.kd_barang;
+                var nm_barang = objek.nm_barang;
+                var stok = objek.stok;
+                var item = objek.item;
 
-              $.ajax({
-                type : "GET",
-                url  : "<?php echo base_url('ControllerOrder/load_detail')?>",
-                dataType : "JSON",
-                success: function(data){
-                  var array = [];
-                  $.each(data,function(index,objek){
-                    var id = objek.id;
-                    var qty = objek.qty;
-                    var price = objek.price;
-                    // array.push = [id,qty,price];
-                    
-                    $.ajax({
-                      type : "POST",
-                      url  : "<?php echo base_url('order/simpan_detail')?>",
-                      dataType : "JSON",
-                      data : {kd_jasa:id, kd_pelanggan:kd_pelanggan, satuan:qty, jumlah:price},
-                    }); 
+                $.ajax({
+                  type : "POST",
+                  url  : "<?php echo base_url('ControllerOrder/simpan_detail_ver2')?>",
+                  dataType : "JSON",
+                  data : {kd_barang:kd_barang, kd_order:kd_order, item:item, stok:stok, kd_order:kd_order, kd_jasa:kd_jasa, kd_pelanggan:kd_pelanggan},  
+                });
 
-                  });
-                }
-              });  
+
+              });
 
               swal({
-                  title: "Berhasil Disimpan",
+                  title: "Berhasil Diproses",
                   text: "",
                   icon: "success",
                   button: "Ok !",
                 }).then(function() {
                   $('#detail_cart').load('<?php echo base_url('order/destroy') ?>');
-                });
+              });
+              $('#ModalOrderDetail').modal('hide');
               tampil_data_order();
             }
           });
           return false;
         });
 
-        //Hapus Jasa
-        // $('#btn_hapus').on('click',function(){
-        //   var kd_jasa = $('#textkode').val();
-        //   $.ajax({
-        //     type : "POST",
-        //     url  : "<?php echo base_url('jasa/hapus')?>",
-        //     dataType : "JSON",
-        //     data : {kd_jasa: kd_jasa},
-        //     success: function(data){
-        //       $('#ModalHapusJasa').modal('hide');
-        //       tampil_data_order();
-        //     }
-        //   });
-        //   return false;
-        // });
+        $('.btn_tutup').on('click',function(){
+          $('#detail_cart').load('<?php echo base_url('order/destroy') ?>');
+          $('#ModalOrderDetail').modal('hide');
+          return false;
+        });
+
     });
 </script> 

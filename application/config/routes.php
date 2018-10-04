@@ -95,6 +95,6 @@ $route['order/simpan_detail'] = 'ControllerOrder/simpan_detail';
 $route['order/cetak/(:any)'] = 'ControllerOrder/cetak/$1';
 $route['order/get_order'] = 'ControllerOrder/get_order';
 $route['order/get_detail_order'] = 'ControllerOrder/get_detail_order';
-$route['order/proses/(:any)'] = 'ControllerOrder/proses/$1';
+$route['order/proses/(:any)/(:any)'] = 'ControllerOrder/proses/$1/$2';
 $route['order/getKode'] = 'ControllerOrder/getKode';
 $route['order/destroy'] = 'ControllerOrder/destroy';

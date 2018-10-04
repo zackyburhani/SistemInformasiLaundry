@@ -137,6 +137,7 @@ class ControllerOrder extends CI_Controller
 			'kd_pelanggan' => $kd_pelanggan,
 			'satuan' => $satuan,
 			'jumlah' => $jumlah,
+			'status' =>'0'
 		];
 
 		$result = $this->Model->simpan('detail_order',$data);
@@ -180,11 +181,20 @@ class ControllerOrder extends CI_Controller
 		echo json_encode($data);
 	}
 
-	function proses($kd_order)
+	function get_detail_order_ver2()
+	{
+		$kd_order = $this->input->get('kd_order');
+		$kd_pelanggan = $this->input->get('kd_pelanggan');
+		$data = $this->Model->getJoinDetail_ID_ver2($kd_order,$kd_pelanggan);	
+		echo json_encode($data);
+	}
+
+	function proses($kd_order,$kd_pelanggan)
 	{
 		$data = [
 			'barang' => $this->Model->getAll('barang'),
-			'kd_order' => $kd_order
+			'kd_order' => $kd_order,
+			'kd_pelanggan' => $kd_pelanggan
 		];
 		$this->load->view('template/v_header');
 		$this->load->view('template/v_sidebar');
@@ -302,4 +312,104 @@ class ControllerOrder extends CI_Controller
         $pdf->Output();
     }
 
+    function add_to_cart_ver2(){ //fungsi Add To Cart
+
+		$kd_barang = $this->input->post('kd_barang');
+
+		$barang = $this->Model->getByID('barang','kd_barang',$kd_barang);
+
+		$data = [
+	        'id' => $barang->kd_barang, 
+	        'name' => $barang->nm_barang, 
+	        'price' => $barang->stok, 
+	        'qty' => $this->input->post('item'), 
+	    ];
+
+        $tes = $this->cart->insert($data);
+        echo $this->show_cart_ver2(); //tampilkan cart setelah added
+    }
+
+    function show_cart_ver2(){ //Fungsi untuk menampilkan Cart
+        $output = '';
+        $no = 0;
+        foreach ($this->cart->contents() as $items) {
+            $no++;
+            $output .='
+                <tr>
+                	<td align="center">'.$no.".".'</td>
+                    <td align="center">'.$items['id'].'</td>
+                    <td>'.$items['name'].'</td>
+                    <td align="center">'.$items['price'].'</td>
+                    <td align="center">'.$items['qty'].'</td> 
+                    <td align="center"><button type="button" id="'.$items['rowid'].'" class="hapus_cart btn btn-danger btn-md"><i class="glyphicon glyphicon-trash"></i></button></td>
+                </tr>
+            ';
+        }
+        return $output;
+    }
+
+    function load_cart_ver2()
+    { 
+        echo $this->show_cart_ver2();
+    }
+
+    function hapus_cart_ver2()
+    { 
+        $data = array(
+            'rowid' => $this->input->post('row_id'), 
+            'qty' => 0, 
+        );
+        $this->cart->update($data);
+        echo $this->show_cart();
+    }
+
+    function load_detail_ver2(){ 
+        foreach ($this->cart->contents() as $items) {
+
+        	$stok_update = $items['price']-$items['qty'];
+
+            $data[] = [
+            	'kd_barang'=> $items['id'],
+            	'nm_barang' =>$items['name'],
+            	'stok' =>$stok_update,
+            	'item' =>$items['qty']
+            ];      
+        }
+        echo json_encode($data);
+    }
+
+    function simpan_detail_ver2()
+	{
+		$kd_barang = $this->input->post('kd_barang');
+		$kd_order = $this->input->post('kd_order');
+		$item = $this->input->post('item');
+		// buat update
+		$stok = $this->input->post('stok');
+		$kd_pelanggan = $this->input->post('kd_pelanggan');
+		$kd_jasa = $this->input->post('kd_jasa');
+
+		$data = [
+			'kd_barang' => $kd_barang,
+			'kd_order' => $kd_order,
+			'jumlah' => $item,
+		];
+
+		$data2 = [
+			'stok' => $stok
+		];
+
+		$data3 = [
+			'status' => '1'
+		];
+
+		$update = $this->Model->update_status($kd_jasa,$kd_pelanggan);
+
+		$result = $this->Model->simpan('detail_barang',$data);
+
+		$result2 = $this->Model->update('kd_barang',$kd_barang,$data2,'barang');
+
+		$result2 = $this->Model->update('kd_order',$kd_order,$data3,'order_pesanan');		
+
+		echo json_encode($result);
+	}
 }

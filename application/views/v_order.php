@@ -264,7 +264,7 @@
                             '<td style="text-align:center;">'+
                               '<button data-target="javascript:;" class="btn btn-info order_detail" data="'+data[i].kd_order+'"><span class="fa fa-folder-open"></span></button>'+' '+
                               '<a href="<?php echo site_url('order/cetak/') ?>'+data[i].kd_order+'" target="_blank" class="btn btn-primary"><span class="fa fa-file-pdf-o"></span></a>'+' '+ 
-                              '<a href="<?php echo site_url('order/proses/') ?>'+data[i].kd_order+'" class="btn btn-success order_proses" data="'+data[i].kd_order+'"><span class="fa fa-gears"></span></a>'+ 
+                              '<a href="<?php echo site_url('order/proses/') ?>'+data[i].kd_order+'/'+data[i].kd_pelanggan+'" class="btn btn-success order_proses" data="'+data[i].kd_order+'"><span class="fa fa-gears"></span></a>'+ 
                             '</td>'+
                         '</tr>';
                     }

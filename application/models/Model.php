@@ -168,6 +168,26 @@ class Model extends CI_Model {
 		return $check;
 	}
 
+	public function getJoinDetail_ID_ver2($kd_order,$kd_pelanggan)
+	{
+		$check = false;
+		try{
+			$query = $this->db->query("
+				SELECT *,
+					(SELECT sum(jumlah) FROM detail_order JOIN pelanggan ON pelanggan.kd_pelanggan = detail_order.kd_pelanggan JOIN order_pesanan ON order_pesanan.kd_pelanggan = pelanggan.kd_pelanggan WHERE order_pesanan.kd_order = '$kd_order') as total 
+				FROM pelanggan
+					JOIN order_pesanan ON pelanggan.kd_pelanggan = order_pesanan.kd_pelanggan
+					JOIN detail_order ON pelanggan.kd_pelanggan = detail_order.kd_pelanggan
+					JOIN jasa ON detail_order.kd_jasa = jasa.kd_jasa
+				WHERE detail_order.status = '0' AND order_pesanan.kd_order = '$kd_order' AND pelanggan.kd_pelanggan = '$kd_pelanggan'");
+			return $query->result();
+		}catch (Exception $ex) {
+			$check = false;
+		}
+		return $check;
+	}
+
+
     //kode pelanggan
 	public function getKodePelanggan()
     {
@@ -182,6 +202,11 @@ class Model extends CI_Model {
          $kd = "0000001";
     	}
        	return "PLG".$kd;
+    }
+
+    public function update_status($kd_jasa,$kd_pelanggan)
+    {
+    	$query = $this->db->query("UPDATE detail_order set status = '1' WHERE kd_jasa = '$kd_jasa' AND kd_pelanggan = '$kd_pelanggan'");
     }
 
     //kode barang
