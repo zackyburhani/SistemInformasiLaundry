@@ -43,11 +43,13 @@ class ControllerBarang extends CI_Controller
 	{
 		$kd_barang = $this->input->post('kd_barang');
 		$nm_barang = $this->input->post('nm_barang');
+		$harga = $this->input->post('harga');
 		$stok = $this->input->post('stok');
 
 		$data = [
 			'kd_barang' => $kd_barang,
 			'nm_barang' => $nm_barang,
+			'harga' => $harga,
 			'stok' => $stok,
 		];
 
@@ -67,11 +69,13 @@ class ControllerBarang extends CI_Controller
 	{
 		$kd_barang = $this->input->post('kd_barang');
 		$nm_barang = $this->input->post('nm_barang');
+		$harga = $this->input->post('harga');
 		$stok = $this->input->post('stok');
 
 		$data = [
 			'kd_barang' => $kd_barang,
 			'nm_barang' => $nm_barang,
+			'harga' => $harga,
 			'stok' => $stok
 		];
 

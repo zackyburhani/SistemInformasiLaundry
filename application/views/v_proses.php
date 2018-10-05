@@ -1,7 +1,7 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Data Proses / <span id="lempar_kode"><?php echo $kd_order ?></span> / <span id="lempar_plg"><?php echo $kd_pelanggan ?></span>
+      Data Proses / <span id="lempar_kode"><?php echo $kd_order ?></span>
       <small></small>
     </h1>
   </section>
@@ -192,13 +192,12 @@
         //fungsi tampil jasa
         function tampil_data_order(){
         var kode_lempar = $('#lempar_kode').text();
-        var kode_plg = $('#lempar_plg').text();
             $.ajax({
                 type  : 'GET',
                 url   : "<?php echo base_url('ControllerOrder/get_detail_order_ver2')?>",
                 async : false,
                 dataType : 'json',
-                data: {kd_order:kode_lempar,kd_pelanggan:kode_plg},
+                data: {kd_order:kode_lempar},
                 success : function(data){
                     var html = '';
                     var i;
@@ -233,7 +232,6 @@
 
               var kd_order = $('#lempar_kode').text();
               var kd_jasa = $("#kode_jasa").text();
-              var kd_pelanggan = $('#lempar_plg').text();
               
               $.each(data,function(index,objek){
                 var kd_barang = objek.kd_barang;
@@ -245,7 +243,7 @@
                   type : "POST",
                   url  : "<?php echo base_url('ControllerOrder/simpan_detail_ver2')?>",
                   dataType : "JSON",
-                  data : {kd_barang:kd_barang, kd_order:kd_order, item:item, stok:stok, kd_order:kd_order, kd_jasa:kd_jasa, kd_pelanggan:kd_pelanggan},  
+                  data : {kd_barang:kd_barang, kd_order:kd_order, item:item, stok:stok, kd_order:kd_order, kd_jasa:kd_jasa},  
                 });
 
 

@@ -11,7 +11,7 @@
         <div class="col-lg-12">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <button class="btn btn-default" id="tambahPelanggan" data-toggle="modal" href="#" data-target="#ModalTambahPelanggan"><i class="fa fa-plus"></i></button> Tambah Data pelanggan
+              <button class="btn btn-default" id="tambahPelanggan" data-toggle="modal" href="#" data-target="#ModalTambahPelanggan"><i class="fa fa-plus"></i></button> Tambah Data Pelanggan
             </div>
             <div class="panel-body">
       

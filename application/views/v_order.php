@@ -121,7 +121,8 @@
           <div class="form-group">
             <label class="control-label col-xs-3" >Tanggal Masuk</label>
             <div class="col-xs-9">
-              <input name="tgl_masuk" id="tgl_masuk_id" class="form-control" type="date" style="width:335px;" required>
+              <input name="tgl_masuk" id="tgl_masuk_id" class="form-control" type="date" 
+              value="<?php echo date('Y-m-d') ?>" style="width:335px;" required>
             </div>
           </div>
 
@@ -267,7 +268,7 @@
                             '<td style="text-align:center;">'+
                               '<button data-target="javascript:;" class="btn btn-info order_detail" data="'+data[i].kd_order+'"><span class="fa fa-folder-open"></span></button>'+' '+
                               '<a href="<?php echo site_url('order/cetak/') ?>'+data[i].kd_order+'" target="_blank" class="btn btn-primary"><span class="fa fa-file-pdf-o"></span></a>'+' '+ 
-                              '<a href="<?php echo site_url('order/proses/') ?>'+data[i].kd_order+'/'+data[i].kd_pelanggan+'" class="btn btn-success order_proses" data="'+data[i].kd_order+'"><span class="fa fa-gears"></span></a>'+ 
+                              '<a href="<?php echo site_url('order/proses/') ?>'+data[i].kd_order+'" class="btn btn-success order_proses" data="'+data[i].kd_order+'"><span class="fa fa-gears"></span></a>'+ 
                             '</td>'+
                         '</tr>';
                     }
@@ -449,7 +450,7 @@
                       type : "POST",
                       url  : "<?php echo base_url('order/simpan_detail')?>",
                       dataType : "JSON",
-                      data : {kd_jasa:id, kd_pelanggan:kd_pelanggan, satuan:qty, jumlah:price},
+                      data : {kd_jasa:id, kd_order:kd_order, satuan:qty, jumlah:price},
                     }); 
 
                   });
@@ -473,22 +474,46 @@
         //ambil cucian
         $('.btn_proses').on('click',function(){
           var kd_order = $('#lempar_kode').text();
-          $.ajax({
-            type : "POST",
-            url  : "<?php echo base_url('ControllerOrder/ambil')?>",
-            dataType : "JSON",
-            data : {kd_order: kd_order},
-            success: function(data){
-              $('#ModalOrderDetail').modal('hide');
-              tampil_data_order();
-              swal({
-                  title: "Berhasil Diproses",
-                  text: "",
-                  icon: "success",
-                  button: "Ok !",
+
+
+          swal({
+              title: "Anda Yakin?",
+              text: "",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+
+              if (willDelete) {
+
+                $.ajax({
+                  type : "POST",
+                  url  : "<?php echo base_url('ControllerOrder/ambil')?>",
+                  dataType : "JSON",
+                  data : {kd_order: kd_order},
+                  success: function(data){
+                    tampil_data_order();
+                    
+                  }
                 });
-            }
-          });
+
+
+
+                swal({
+                      title: "Berhasil Diproses",
+                      text: "",
+                      icon: "success",
+                      button: "Ok !",
+                    }).then(function() {
+                      $('#ModalOrderDetail').modal('hide');
+                    });
+                
+              } else {
+                return false;
+              }
+            });
+          
           return false;
         });
     });

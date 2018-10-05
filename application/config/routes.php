@@ -95,6 +95,14 @@ $route['order/simpan_detail'] = 'ControllerOrder/simpan_detail';
 $route['order/cetak/(:any)'] = 'ControllerOrder/cetak/$1';
 $route['order/get_order'] = 'ControllerOrder/get_order';
 $route['order/get_detail_order'] = 'ControllerOrder/get_detail_order';
-$route['order/proses/(:any)/(:any)'] = 'ControllerOrder/proses/$1/$2';
+$route['order/proses/(:any)'] = 'ControllerOrder/proses/$1';
 $route['order/getKode'] = 'ControllerOrder/getKode';
 $route['order/destroy'] = 'ControllerOrder/destroy';
+
+//petugas
+$route['petugas'] = 'ControllerPetugas';
+$route['petugas/data_petugas'] = 'ControllerPetugas/data_petugas';
+$route['petugas/simpan'] = 'ControllerPetugas/simpan';
+$route['petugas/ubah'] = 'ControllerPetugas/ubah';
+$route['petugas/get_petugas'] = 'ControllerPetugas/get_petugas';
+$route['petugas/hapus'] = 'ControllerPetugas/hapus';

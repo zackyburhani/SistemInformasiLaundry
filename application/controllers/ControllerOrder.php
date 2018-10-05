@@ -128,13 +128,13 @@ class ControllerOrder extends CI_Controller
 	function simpan_detail()
 	{
 		$kd_jasa = $this->input->post('kd_jasa');
-		$kd_pelanggan = $this->input->post('kd_pelanggan');
+		$kd_order = $this->input->post('kd_order');
 		$satuan = $this->input->post('satuan');
 		$jumlah = $this->input->post('jumlah');
 
 		$data = [
 			'kd_jasa' => $kd_jasa,
-			'kd_pelanggan' => $kd_pelanggan,
+			'kd_order' => $kd_order,
 			'satuan' => $satuan,
 			'jumlah' => $jumlah,
 			'status' =>'0'
@@ -184,17 +184,15 @@ class ControllerOrder extends CI_Controller
 	function get_detail_order_ver2()
 	{
 		$kd_order = $this->input->get('kd_order');
-		$kd_pelanggan = $this->input->get('kd_pelanggan');
-		$data = $this->Model->getJoinDetail_ID_ver2($kd_order,$kd_pelanggan);	
+		$data = $this->Model->getJoinDetail_ID_ver2($kd_order);	
 		echo json_encode($data);
 	}
 
-	function proses($kd_order,$kd_pelanggan)
+	function proses($kd_order)
 	{
 		$data = [
 			'barang' => $this->Model->getAll('barang'),
-			'kd_order' => $kd_order,
-			'kd_pelanggan' => $kd_pelanggan
+			'kd_order' => $kd_order
 		];
 		$this->load->view('template/v_header');
 		$this->load->view('template/v_sidebar');
@@ -386,7 +384,6 @@ class ControllerOrder extends CI_Controller
 		$item = $this->input->post('item');
 		// buat update
 		$stok = $this->input->post('stok');
-		$kd_pelanggan = $this->input->post('kd_pelanggan');
 		$kd_jasa = $this->input->post('kd_jasa');
 
 		$data = [
@@ -399,7 +396,7 @@ class ControllerOrder extends CI_Controller
 			'stok' => $stok
 		];
 
-		$update = $this->Model->update_status($kd_jasa,$kd_pelanggan);
+		$update = $this->Model->update_status($kd_jasa,$kd_order);
 
 		$result = $this->Model->simpan('detail_barang',$data);
 

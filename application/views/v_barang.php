@@ -20,6 +20,7 @@
                   <tr>
                     <th width="50px">No. </th>
                     <th><center>Nama Barang</center></th>
+                    <th width="150px"><center>Harga</center></th>
                     <th width="150px"><center>Stok</center></th>
                     <th width="100px"> <center>Action</center> </th>
                   </tr>
@@ -57,6 +58,13 @@
             <label class="control-label col-xs-3" >Nama Barang</label>
             <div class="col-xs-9">
               <input name="nm_barang" id="nm_barang_id" class="form-control" type="text" placeholder="Nama Barang" style="width:335px;" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-xs-3" >Harga</label>
+            <div class="col-xs-9">
+              <input name="harga" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="harga_id" class="form-control" type="number" min="0" placeholder="Harga" style="width:335px;" required>
             </div>
           </div>
 
@@ -102,6 +110,13 @@
             <label class="control-label col-xs-3" >Nama Barang</label>
             <div class="col-xs-9">
               <input name="nm_barang_edit" id="nm_barang_id_edit" class="form-control" type="text" placeholder="Nama Barang" style="width:335px;" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-xs-3" >Harga</label>
+            <div class="col-xs-9">
+              <input name="harga_edit" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="harga_id_edit" class="form-control" type="number" placeholder="Harga" style="width:335px;" required>
             </div>
           </div>
 
@@ -172,6 +187,7 @@
                     '<tr>'+
                         '<td align="center">'+ no++ +'.'+'</td>'+
                         '<td>'+data[i].nm_barang+'</td>'+
+                        '<td align="center">'+data[i].harga+'</td>'+
                         '<td align="center">'+data[i].stok+'</td>'+
                         '<td style="text-align:center;">'+
                           '<button data-target="javascript:;" class="btn btn-warning barang_edit" data="'+data[i].kd_barang+'"><span class="glyphicon glyphicon-edit"></span></button>'+' '+
@@ -209,10 +225,11 @@
           dataType : "JSON",
           data : {kd_barang:kd_barang},
           success: function(data){
-            $.each(data,function(kd_barang, nm_barang, stok){
+            $.each(data,function(kd_barang, nm_barang,harga, stok){
               $('#ModalEditBarang').modal('show');
               $('[name="kd_barang_edit"]').val(data.kd_barang);
               $('[name="nm_barang_edit"]').val(data.nm_barang);
+              $('[name="harga_edit"]').val(data.harga);
               $('[name="stok_edit"]').val(data.stok);
             });
           }
@@ -231,15 +248,17 @@
     $('#btn_simpan').on('click',function(){
       var kd_barang = $('#kd_barang_id').val();
       var nm_barang = $('#nm_barang_id').val();
+      var harga = $('#harga_id').val();
       var stok = $('#stok_id').val();
       $.ajax({
         type : "POST",
         url  : "<?php echo base_url('barang/simpan')?>",
         dataType : "JSON",
-        data : {kd_barang:kd_barang, nm_barang:nm_barang, stok:stok},
+        data : {kd_barang:kd_barang, nm_barang:nm_barang,harga:harga, stok:stok},
         success: function(data){
           $('[name="kd_barang"]').val("");
           $('[name="nm_barang"]').val("");
+          $('[name="harga"]').val("");
           $('[name="stok"]').val("");
           $('#ModalTambahBarang').modal('hide');
           setTimeout(function() {
@@ -255,15 +274,17 @@
     $('#btn_update').on('click',function(){
       var kd_barang = $('#kd_barang_id_edit').val();
       var nm_barang = $('#nm_barang_id_edit').val();
+      var harga = $('#harga_id_edit').val();
       var stok = $('#stok_id_edit').val();
       $.ajax({
         type : "POST",
         url  : "<?php echo base_url('barang/ubah')?>",
         dataType : "JSON",
-        data : {kd_barang:kd_barang , nm_barang:nm_barang, stok:stok},
+        data : {kd_barang:kd_barang , nm_barang:nm_barang,harga:harga, stok:stok},
         success: function(data){
           $('[name="kd_barang_edit"]').val("");
           $('[name="nm_barang_edit"]').val("");
+          $('[name="harga_edit"]').val("");
           $('[name="stok_edit"]').val("");
           $('#ModalEditBarang').modal('hide');
           setTimeout(function() {
