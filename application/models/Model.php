@@ -7,6 +7,13 @@ class Model extends CI_Model {
 		parent::__construct();
 	}
 
+	//count
+	public function jumlah($table)
+  	{
+    	$query = $this->db->get($table);
+    	return $query->num_rows();
+  	}
+
 	//untuk login
 	public function auth($username,$password)
 	{
@@ -277,4 +284,47 @@ class Model extends CI_Model {
        	return "ORP".$kd;
     }
 
+
+    public function lapPendapatan($awal,$akhir)
+	{
+		$check = false;
+		try{
+			$query = $this->db->query("
+				SELECT * FROM order_pesanan 
+					JOIN detail_order ON order_pesanan.kd_order = detail_order.kd_order
+    				JOIN pelanggan ON order_pesanan.kd_pelanggan = pelanggan.kd_pelanggan
+    				JOIN jasa ON detail_order.kd_jasa = jasa.kd_jasa
+				WHERE order_pesanan.status = '1' AND tgl_keluar BETWEEN '$awal' AND '$akhir'
+			");
+			return $query->result();
+		}catch (Exception $ex) {
+			$check = false;
+		}
+		return $check;
+	}
+
+	public function lapJasa($awal,$akhir)
+	{
+		$check = false;
+		try{
+			$query = $this->db->query("
+				SELECT *, count(*) as total FROM jasa
+					JOIN detail_order ON detail_order.kd_jasa = jasa.kd_jasa
+				    JOIN order_pesanan ON order_pesanan.kd_order = detail_order.kd_order
+				WHERE order_pesanan.status = '1' AND tgl_keluar BETWEEN '$awal' AND '$akhir'
+				GROUP by jasa.kd_jasa
+			");
+			return $query->result();
+		}catch (Exception $ex) {
+			$check = false;
+		}
+		return $check;
+	}
+	
+    
+
+	//pelanggan terbanyak
+// 	 SELECT count(*) as total, pelanggan.kd_pelanggan,nm_pelanggan from order_pesanan 
+//  	JOIN pelanggan ON order_pesanan.kd_pelanggan = pelanggan.kd_pelanggan
+// GROUP by pelanggan.kd_pelanggan
 }

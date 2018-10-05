@@ -7,6 +7,10 @@ class ControllerJasa extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('Model');
+		$username = $this->session->username;
+		if($username == null){
+			redirect('');
+		}
 	}
 	
 	function index()

@@ -11,7 +11,7 @@
         <div class="col-lg-12">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <button class="btn btn-default" id="tambahBarang" data-toggle="modal" href="#" data-target="#ModalTambahBarang"><i class="fa fa-plus"></i></button> Tambah Data Barang
+              <button class="btn btn-warning" id="tambahBarang" data-toggle="modal" href="#" data-target="#ModalTambahBarang"><i class="fa fa-plus"></i> Tambah Data Barang</button> 
             </div>
             <div class="panel-body">
       
@@ -78,8 +78,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-success" id="btn_simpan">Simpan</button>
+          <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i> Tutup</button>
+          <button class="btn btn-warning" id="btn_simpan"><i class="fa fa-save"></i> Simpan</button>
         </div>
       </form>
     </div>
@@ -131,8 +131,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-success" id="btn_update">Simpan</button>
+          <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i> Tutup</button>
+          <button class="btn btn-warning" id="btn_update"><i class="fa fa-save"></i> Simpan</button>
         </div>
       </form>
     </div>
@@ -183,11 +183,16 @@
                 var i;
                 no = 1;
                 for(i=0; i<data.length; i++){
+                    //rupiah
+                    var har = data[i].harga;
+                    var reverse = har.toString().split('').reverse().join(''),
+                        ribuan  = reverse.match(/\d{1,3}/g);
+                        ribuan  = ribuan.join('.').split('').reverse().join('');
                     html += 
                     '<tr>'+
                         '<td align="center">'+ no++ +'.'+'</td>'+
                         '<td>'+data[i].nm_barang+'</td>'+
-                        '<td align="center">'+data[i].harga+'</td>'+
+                        '<td align="center">'+ribuan+'</td>'+
                         '<td align="center">'+data[i].stok+'</td>'+
                         '<td style="text-align:center;">'+
                           '<button data-target="javascript:;" class="btn btn-warning barang_edit" data="'+data[i].kd_barang+'"><span class="glyphicon glyphicon-edit"></span></button>'+' '+

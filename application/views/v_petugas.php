@@ -11,7 +11,7 @@
         <div class="col-lg-12">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <button class="btn btn-default" id="tambahPetugas" data-toggle="modal" href="#" data-target="#ModalTambahPetugas"><i class="fa fa-plus"></i></button> Tambah Data Petugas
+              <button class="btn btn-warning" id="tambahPetugas" data-toggle="modal" href="#" data-target="#ModalTambahPetugas"><i class="fa fa-plus"></i> Tambah Data Petugas</button>
             </div>
             <div class="panel-body">
       
@@ -64,7 +64,7 @@
           <div class="form-group">
             <label class="control-label col-xs-3">Ulangi Password</label>
             <div class="col-xs-9">
-              <input name="repassword" id="repassword_id" class="form-control" type="password" placeholder="Username" style="width:335px;" required>
+              <input name="repassword" id="repassword_id" class="form-control" type="password" placeholder="Konfirmasi Password" style="width:335px;" required>
             </div>
           </div>
 
@@ -92,8 +92,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-success" id="btn_simpan">Simpan</button>
+          <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i> Tutup</button>
+          <button class="btn btn-warning" id="btn_simpan"><i class="fa fa-save"></i> Simpan</button>
         </div>
       </form>
     </div>
@@ -116,7 +116,7 @@
           <div class="form-group">
             <label class="control-label col-xs-3">Username</label>
             <div class="col-xs-9">
-              <input name="username_edit" id="username_id_edit" class="form-control" type="text" placeholder="Username" style="width:335px;" required>
+              <input name="username_edit" id="username_id_edit" class="form-control" type="text" placeholder="Username" style="width:335px;" readonly required>
             </div>
           </div>
 
@@ -128,9 +128,9 @@
           </div>
 
           <div class="form-group">
-            <label class="control-label col-xs-3">Konfirmasi Password</label>
+            <label class="control-label col-xs-3">Ulangi Password</label>
             <div class="col-xs-9">
-              <input name="repassword_edit" id="repassword_id_edit" class="form-control" type="password" placeholder="Konfirmasi Password" style="width:335px;" required>
+              <input name="repassword_edit" id="repassword_id_edit" class="form-control" type="password" placeholder="Ulangi Password" style="width:335px;" required>
             </div>
           </div>
 
@@ -158,8 +158,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-success" id="btn_update">Simpan</button>
+          <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i> Tutup</button>
+          <button class="btn btn-warning" id="btn_update"><i class="fa fa-save"></i> Simpan</button>
         </div>
       </form>
     </div>
@@ -229,17 +229,17 @@
 
     //GET UPDATE
     $('#show_data').on('click','.petugas_edit',function(){
-      var kd_petugas = $(this).attr('data');
+      var username = $(this).attr('data');
         $.ajax({
           type : "GET",
           url  : "<?php echo base_url('petugas/get_petugas')?>",
           dataType : "JSON",
-          data : {kd_petugas:kd_petugas},
+          data : {username:username},
           success: function(data){
-            $.each(data,function(kd_petugas, nm_petugas, no_telp, alamat){
+            $.each(data,function(username, nm_petugas, no_telp, alamat){
               $('#ModalEditPetugas').modal('show');
-              $('[name="username_edit"]').val(data.kd_pelanggan);
-              $('[name="nm_petugas_edit"]').val(data.nm_pelanggan);
+              $('[name="username_edit"]').val(data.username);
+              $('[name="nm_petugas_edit"]').val(data.nm_petugas);
               $('[name="no_telp_edit"]').val(data.no_telp);
               $('[name="alamat_edit"]').val(data.alamat);
             });
@@ -326,21 +326,36 @@
 
     //Update Barang
     $('#btn_update').on('click',function(){
-      var kd_petugas = $('#username_id_edit').val();
+      var username = $('#username_id_edit').val();
+      var password = $('#password_id_edit').val();
+      var repassword = $('#repassword_id_edit').val();
       var nm_petugas = $('#nm_petugas_id_edit').val();
       var no_telp = $('#no_telp_id_edit').val();
       var alamat = $('#alamat_id_edit').val();
+      
+      if(password != repassword){
+        swal({
+          title: "Password Tidak Sama",
+          text: "",
+          icon: "error",
+          button: "Ok !",
+        });
+        return false;
+      }
+      
       $.ajax({
         type : "POST",
         url  : "<?php echo base_url('petugas/ubah')?>",
         dataType : "JSON",
-        data : {nm_pelanggan:nm_pelanggan, no_telp:no_telp, alamat:alamat},
+        data : {username:username,password:password,nm_petugas:nm_petugas, no_telp:no_telp, alamat:alamat},
         success: function(data){
-          $('[name="kd_pelanggan_edit"]').val("");
-          $('[name="nm_pelanggan_edit"]').val("");
+          $('[name="username_edit"]').val("");
+          $('[name="password_edit"]').val("");
+          $('[name="repassword_edit"]').val("");
+          $('[name="nm_petugas_edit"]').val("");
           $('[name="no_telp_edit"]').val("");
           $('[name="no_alamat_edit"]').val("");
-          $('#ModalEditPelanggan').modal('hide');
+          $('#ModalEditPetugas').modal('hide');
           setTimeout(function() {
               swal("Berhasil Disimpan", "", "success");
                   }, 600);
@@ -350,7 +365,7 @@
       return false;
     });
 
-    //Hapus Barang
+    //Hapus Petugas
     $('#btn_hapus').on('click',function(){
       var username = $('#textkode').val();
       $.ajax({

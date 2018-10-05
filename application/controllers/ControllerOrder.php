@@ -7,6 +7,10 @@ class ControllerOrder extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('Model');
+        $username = $this->session->username;
+        if($username == null){
+            redirect('');
+        }
 	}
 	
 	function index()
@@ -57,15 +61,16 @@ class ControllerOrder extends CI_Controller
         $output = '';
         $no = 0;
         foreach ($this->cart->contents() as $items) {
+
             $no++;
             $output .='
                 <tr>
                 	<td align="center">'.$no.".".'</td>
                     <td align="center">'.$items['id'].'</td>
                     <td>'.$items['name'].'</td>
-                    <td align="center">'.number_format($items['price'],2,',','.').'</td>
+                    <td align="center">'.number_format($items['price'],0,',','.').'</td>
                     <td align="center">'.$items['qty'].'</td> 
-                    <td align="right">'.number_format($items['subtotal'],2,',','.').'</td>
+                    <td align="right">'.number_format($items['subtotal'],0,',','.').'</td>
                     <td align="center"><button type="button" id="'.$items['rowid'].'" class="hapus_cart btn btn-danger btn-md"><i class="glyphicon glyphicon-trash"></i></button></td>
                 </tr>
             ';
@@ -73,7 +78,7 @@ class ControllerOrder extends CI_Controller
         $output .= '
             <tr>
                 <th colspan="4"><center>TOTAL</center></th>
-                <th colspan="2"> <div class="text-right">'.'Rp '.number_format($this->cart->total(),2,',','.').'</div></th>
+                <th colspan="2"> <div class="text-right">'.'Rp '.number_format($this->cart->total(),0,',','.').'</div></th>
                 <th></th>
             </tr>
         ';
@@ -282,16 +287,16 @@ class ControllerOrder extends CI_Controller
             $pdf->Cell(10,6,$no++.".",1,0,'C');
             $pdf->Cell(40,6,$row->kd_jasa,1,0,'C');
             $pdf->Cell(60,6,ucwords($row->nm_jasa),1,0,'C');
-            $pdf->Cell(20,6,number_format($row->harga,2,',','.'),1,0,'C');
+            $pdf->Cell(20,6,number_format($row->harga,0,',','.'),1,0,'C');
             $pdf->Cell(20,6,$row->satuan,1,0,'C');
-            $pdf->Cell(40,6,number_format($row->jumlah,2,',','.'),1,1,'C');   
+            $pdf->Cell(40,6,number_format($row->jumlah,0,',','.'),1,1,'C');   
         	$tampung[] = $row->jumlah;
         }
 
        
         $pdf->SetFont('Arial','B',8);
         $pdf->Cell(150,6,'Total Harga',1,0,'C');
-        $pdf->Cell(40,6,'Rp. '.number_format(array_sum($tampung),2,',','.'),1,1,'C');
+        $pdf->Cell(40,6,'Rp. '.number_format(array_sum($tampung),0,',','.'),1,1,'C');
         $pdf->SetFont('Arial','',8);
         
         $pdf->Cell(10,20,'',0,1);
@@ -302,9 +307,11 @@ class ControllerOrder extends CI_Controller
 
         $pdf->Cell(10,20,'',0,1);
 
+        $nama_petugas = $this->session->nm_petugas;
+
         $pdf->Cell(63,6,'',0,0,'C');
         $pdf->Cell(63,6,'',0,0,'C');
-        $pdf->Cell(63,6,'( Admininstrator )',0,0,'C');
+        $pdf->Cell(63,6,'( '.$nama_petugas.' )',0,0,'C');
         
 
         $pdf->Output();

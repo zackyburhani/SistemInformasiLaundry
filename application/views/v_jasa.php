@@ -11,7 +11,7 @@
         <div class="col-lg-12">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <button class="btn btn-default" id="tambahJasa" data-toggle="modal" href="#" data-target="#ModalTambahJasa"><i class="fa fa-plus"></i></button> Tambah Data Jasa
+              <button class="btn btn-warning" id="tambahJasa" data-toggle="modal" href="#" data-target="#ModalTambahJasa"><i class="fa fa-plus"></i> Tambah Data Jasa</button>
             </div>
             <div class="panel-body">
       
@@ -20,8 +20,8 @@
                   <tr>
                     <th width="50px">No. </th>
                     <th><center>Nama Jasa</center></th>
-                    <th width="150px"><center>Harga</center></th>
-                    <th width="100px"> <center>Action</center> </th>
+                    <th width="200px"><center>Harga</center></th>
+                    <th width="150px"> <center>Action</center> </th>
                   </tr>
                 </thead>
                 <tbody id="show_data">
@@ -70,8 +70,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-success" id="btn_simpan">Simpan</button>
+          <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i> Tutup</button>
+          <button class="btn btn-warning" id="btn_simpan"><i class="fa fa-save"></i> Simpan</button>
         </div>
       </form>
     </div>
@@ -116,8 +116,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-success" id="btn_update">Simpan</button>
+          <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i> Tutup</button>
+          <button class="btn btn-warning" id="btn_update"><i class="fa fa-save"></i> Simpan</button>
         </div>
       </form>
     </div>
@@ -168,11 +168,17 @@
                 var i;
                 no = 1;
                 for(i=0; i<data.length; i++){
+
+                    var har = data[i].harga;
+                    var reverse = har.toString().split('').reverse().join(''),
+                        ribuan  = reverse.match(/\d{1,3}/g);
+                        ribuan  = ribuan.join('.').split('').reverse().join('');
+
                     html += 
                     '<tr>'+
                         '<td align="center">'+ no++ +'.'+'</td>'+
                         '<td>'+data[i].nm_jasa+'</td>'+
-                        '<td align="center">'+data[i].harga+'</td>'+
+                        '<td align="center">'+ribuan+'</td>'+
                         '<td style="text-align:center;">'+
                           '<button data-target="javascript:;" class="btn btn-warning jasa_edit" data="'+data[i].kd_jasa+'"><span class="glyphicon glyphicon-edit"></span></button>'+' '+
                           '<button data-target="javascript:;" class="btn btn-danger jasa_hapus" data="'+data[i].kd_jasa+'"><span class="glyphicon glyphicon-trash"></span></button>'+

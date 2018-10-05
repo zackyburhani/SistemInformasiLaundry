@@ -149,7 +149,7 @@
 
         <div class="modal-footer">
           <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-success" id="btn_simpan">Simpan</button>
+          <button class="btn btn-warning" id="btn_simpan">Simpan</button>
         </div>
       </form>
     </div>
@@ -361,6 +361,19 @@
                           var i;
                           no = 1;
                           for(i=0; i<data.length; i++){
+
+                            //rupiah
+                            var har = data[i].harga;
+                            var reverse = har.toString().split('').reverse().join(''),
+                                ribuan  = reverse.match(/\d{1,3}/g);
+                                ribuan  = ribuan.join('.').split('').reverse().join('');
+
+                            //rupiah ver2
+                            var jml = data[i].jumlah;
+                            var reverse2 = jml.toString().split('').reverse().join(''),
+                                ribuan2  = reverse2.match(/\d{1,3}/g);
+                                ribuan2  = ribuan2.join('.').split('').reverse().join('');
+
                             if(data[i].status == 0){
                               var status = "<p style='color:red;'>Sedang Diproses</p>";
                             } else {
@@ -371,17 +384,22 @@
                                   '<td><center>'+no++ +'.'+'</center></td>'+
                                   '<td><center>'+data[i].kd_jasa+'</center></td>'+
                                   '<td><center>'+data[i].nm_jasa+'</center></td>'+
-                                  '<td><center>'+data[i].harga+'</center></td>'+
+                                  '<td><center>'+ribuan+'</center></td>'+
                                   '<td><center>'+data[i].satuan+'</center></td>'+
-                                  '<td><center>'+data[i].jumlah+'</center></td>'+
+                                  '<td><center>'+ribuan2+'</center></td>'+
                                   '<td><center>'+status+'</center></td>'+
                                 '</tr>';
                               total = data[i].total;
                           }
+
+                          //rupiah
+                          var reverse3 = total.toString().split('').reverse().join(''),
+                              ribuan3  = reverse3.match(/\d{1,3}/g);
+                              ribuan3  = ribuan3.join('.').split('').reverse().join('');
                           html +=
                                 '<tr>'+
                                   '<td colspan="5"><center><b>TOTAL</b></center></td>'+
-                                  '<td><center><b>'+total+'</b></center></td>'+
+                                  '<td><center><b>'+ribuan3+'</b></center></td>'+
                                   '<td></td>'+
                                 '</tr>';
                           $('#detail_order2').html(html);

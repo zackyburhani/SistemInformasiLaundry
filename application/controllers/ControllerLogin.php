@@ -6,12 +6,17 @@ class ControllerLogin extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Model');
+		$this->load->model('Model');	
 	}
 
 	public function index()
-	{	
-		$this->load->view('template/v_login');
+	{
+		$username = $this->session->username;
+		if($username != null){
+			redirect('dashboard');
+		} else {
+			$this->load->view('template/v_login');
+		}
 	}
 
 	public function login()
@@ -45,6 +50,6 @@ class ControllerLogin extends CI_Controller {
 	public function logout()
 	{
 		$this->session->sess_destroy();
-		redirect('login');
+		redirect('');
 	}
 }

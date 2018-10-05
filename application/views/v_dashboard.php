@@ -45,10 +45,9 @@
       <div class="row">
         <div class="col-md-4">
           <!-- small box -->
-          <div class="small-box bg-purple">
+          <div class="small-box bg-yellow">
             <div class="inner">
-              <h3></h3>
-
+              <h3><?php echo $pelanggan ?></h3>
               <p>Data Pelanggan</p>
             </div>
             <div class="icon">
@@ -61,8 +60,7 @@
           <!-- small box -->
           <div class="small-box bg-blue">
             <div class="inner">
-              <h3></h3>
-
+              <h3><?php echo $barang ?></h3>
               <p>Data Barang</p>
             </div>
             <div class="icon">
@@ -76,46 +74,16 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3></h3>
-
-              <p>Data Purchase Order</p>
+              <h3><?php echo $jasa ?></h3>
+              <p>Data Jasa</p>
             </div>
             <div class="icon">
-              <i class="fa fa-tags"></i>
+              <i class="fa fa-file-text"></i>
             </div>
-            <a href="<?php echo site_url('') ?>" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="<?php echo site_url('jasa') ?>" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
-        <!-- ./col -->
-        <div class="col-md-6">
-          <!-- small box -->
-          <div class="small-box bg-green">
-            <div class="inner">
-              <h3><?php  ?></h3>
-
-              <p>Data Pembayaran</p>
-            </div>
-            <div class="icon">
-              <i class="fa fa-money"></i>
-            </div>
-            <a href="<?php echo site_url('') ?>" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-md-6">
-          <!-- small box -->
-          <div class="small-box bg-aqua">
-            <div class="inner">
-              <h3></h3>
-
-              <p>Data Retur</p>
-            </div>
-            <div class="icon">
-              <i class="fa fa-wrench"></i>
-            </div>
-            <a href="" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
+    
         <!-- ./col -->
       </div>
       <!-- /.row -->

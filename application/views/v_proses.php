@@ -203,14 +203,27 @@
                     var i;
                     no = 1;
                     for(i=0; i<data.length; i++){
+
+                      //rupiah
+                      var har = data[i].harga;
+                      var reverse = har.toString().split('').reverse().join(''),
+                          ribuan  = reverse.match(/\d{1,3}/g);
+                          ribuan  = ribuan.join('.').split('').reverse().join('');
+
+                      //rupiah ver2
+                      var jml = data[i].jumlah;
+                      var reverse2 = jml.toString().split('').reverse().join(''),
+                          ribuan2  = reverse2.match(/\d{1,3}/g);
+                          ribuan2  = ribuan2.join('.').split('').reverse().join('');
+
                         html += 
                         '<tr>'+
                             '<td align="center">'+ no++ +'.'+'</td>'+
                             '<td align="center">'+data[i].kd_jasa+'</td>'+
                             '<td align="center">'+data[i].nm_jasa+'</td>'+
-                            '<td align="center">'+data[i].harga+'</td>'+
+                            '<td align="center">'+ribuan+'</td>'+
                             '<td align="center">'+data[i].satuan+'</td>'+
-                            '<td align="center">'+data[i].jumlah+'</td>'+
+                            '<td align="center">'+ribuan2+'</td>'+
                             '<td style="text-align:center;">'+
                               '<button data-target="javascript:;" class="btn btn-danger order_detail" data="'+data[i].kd_jasa+'"><span class="fa fa-gear"></span> Proses Cucian</button>'+' '+
                             '</td>'+

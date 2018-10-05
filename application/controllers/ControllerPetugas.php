@@ -7,6 +7,10 @@ class ControllerPetugas extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('Model');
+		$username = $this->session->username;
+		if($username == null){
+			redirect('');
+		}
 	}
 	
 	function index()
@@ -66,12 +70,20 @@ class ControllerPetugas extends CI_Controller
 		$no_telp = $this->input->post('no_telp');
 		$alamat = $this->input->post('alamat');
 
-		$data = [
-			'password' => md5($password),
-			'nm_petugas' => $nm_petugas,
-			'no_telp' => $no_telp,
-			'alamat' => $alamat
-		];
+		if($password == ""){
+			$data = [
+				'nm_petugas' => $nm_petugas,
+				'no_telp' => $no_telp,
+				'alamat' => $alamat
+			];			
+		} else {
+			$data = [
+				'password' => md5($password),
+				'nm_petugas' => $nm_petugas,
+				'no_telp' => $no_telp,
+				'alamat' => $alamat
+			];
+		}
 
 		$result = $this->Model->update('username',$username,$data,'petugas');
 

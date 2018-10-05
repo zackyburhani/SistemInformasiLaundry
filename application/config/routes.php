@@ -106,3 +106,11 @@ $route['petugas/simpan'] = 'ControllerPetugas/simpan';
 $route['petugas/ubah'] = 'ControllerPetugas/ubah';
 $route['petugas/get_petugas'] = 'ControllerPetugas/get_petugas';
 $route['petugas/hapus'] = 'ControllerPetugas/hapus';
+
+//laporan pendapatan
+$route['laporan_pendapatan'] = 'ControllerPendapatan';
+$route['pendapatan/cetak'] = 'ControllerPendapatan/cetak';
+
+//laporan jasa
+$route['laporan_jasa'] = 'ControllerLapJasa';
+$route['laporan_jasa/cetak'] = 'ControllerLapJasa/cetak';

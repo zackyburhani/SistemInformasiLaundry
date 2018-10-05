@@ -11,7 +11,7 @@
         <div class="col-lg-12">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <button class="btn btn-default" id="tambahPelanggan" data-toggle="modal" href="#" data-target="#ModalTambahPelanggan"><i class="fa fa-plus"></i></button> Tambah Data Pelanggan
+              <button class="btn btn-warning" id="tambahPelanggan" data-toggle="modal" href="#" data-target="#ModalTambahPelanggan"><i class="fa fa-plus"></i> Tambah Data Pelanggan</button> 
             </div>
             <div class="panel-body">
       
@@ -78,8 +78,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-success" id="btn_simpan">Simpan</button>
+          <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i> Tutup</button>
+          <button class="btn btn-warning" id="btn_simpan"><i class="fa fa-save"></i> Simpan</button>
         </div>
       </form>
     </div>
@@ -130,8 +130,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-success" id="btn_update">Simpan</button>
+          <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i> Tutup</button>
+          <button class="btn btn-warning" id="btn_update"><i class="fa fa-save"></i> Simpan</button>
         </div>
       </form>
     </div>

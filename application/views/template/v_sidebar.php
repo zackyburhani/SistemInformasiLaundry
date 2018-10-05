@@ -11,7 +11,7 @@
       </div>
       
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header"><i class="fa fa-asterisk"></i> DATA MASTER</li>
+        <li class="header"><i class="fa fa-asterisk"></i> MAIN NAVIGATION</li>
         <li>
           <a href="<?php echo site_url('dashboard') ?>">
             <i class="fa fa-dashboard"></i>
@@ -42,12 +42,32 @@
             <span>Data Petugas</span>
           </a>
         </li>
-        <li class="header"><i class="fa fa-asterisk"></i> DATA TRANSAKSI</li>
         <li>
           <a href="<?php echo site_url('order') ?>">
             <i class="fa fa-envelope"></i>
             <span>Order Cucian</span>
           </a>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-file-o"></i>
+            <span>Laporan</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li>
+              <a href="<?php echo site_url('laporan_pendapatan') ?>">
+                <i class="fa fa-circle-o"></i> <span>Laporan Pendapatan</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo site_url('laporan_jasa') ?>">
+                <i class="fa fa-circle-o"></i> <span>Laporan Jasa</span>
+              </a>
+            </li>
+          </ul>
         </li>
         <li class="header"></li>
         <li>
