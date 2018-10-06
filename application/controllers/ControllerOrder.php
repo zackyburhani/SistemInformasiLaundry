@@ -25,6 +25,16 @@ class ControllerOrder extends CI_Controller
 		$this->load->view('template/v_footer');
 	}
 
+    function cekCart()
+    {   
+        if($this->cart->contents() == null){
+            $data_cart = false;
+        } else {
+            $data_cart = true;
+        }
+        echo json_encode($data_cart);
+    }
+
 	function getKode()
 	{
 		$kode = $this->Model->getKodeOrder();
@@ -111,7 +121,8 @@ class ControllerOrder extends CI_Controller
     }
 
     function simpan()
-	{
+	{  
+        $username = $this->session->username;
 		$kd_order = $this->input->post('kd_order');
 		$tgl_masuk = $this->input->post('tgl_masuk');
 		$tgl_keluar = $this->input->post('tgl_keluar');
@@ -412,6 +423,22 @@ class ControllerOrder extends CI_Controller
 
 		echo json_encode($result);
 	}
+
+    function cekStok()
+    {
+        $kd_barang = $this->input->get('kd_barang');
+        $stok = $this->Model->getByID('barang','kd_barang',$kd_barang);
+        echo $stok->stok;
+    }
+
+    function cekStok_2()
+    {
+        foreach ($this->cart->contents() as $items) {
+            $data = $items['qty'];
+        }
+
+        echo json_encode($data);   
+    }
 
 	function validasi_ambil()
 	{

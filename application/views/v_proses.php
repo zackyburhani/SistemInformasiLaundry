@@ -122,166 +122,198 @@
 </div>
 <!-- END MODAL DETAIL -->
 
-  <script type="text/javascript">
-    $(document).ready(function(){
-
-        $('#show_data').on('click','.order_detail',function(){
-          var kd_jasa = $(this).attr('data');
-          var kd_order = $('#lempar_kode').text();
-            $.ajax({
-              type : "GET",
-              url  : "<?php echo base_url('ControllerOrder/get_jasa')?>",
-              dataType : "JSON",
-              data : {kd_jasa:kd_jasa, kd_order:kd_order},
-              success: function(data){
-                  $("#kode_jasa").text(kd_jasa);
-                  $('#ModalOrderDetail').modal('show');
-              }
-            });
-            return false;
+<script type="text/javascript">
+  $(document).ready(function(){
+    
+    $('#show_data').on('click','.order_detail',function(){
+      var kd_jasa = $(this).attr('data');
+      var kd_order = $('#lempar_kode').text();
+        $.ajax({
+          type : "GET",
+          url  : "<?php echo base_url('ControllerOrder/get_jasa')?>",
+          dataType : "JSON",
+          data : {kd_jasa:kd_jasa, kd_order:kd_order},
+          success: function(data){
+            $("#kode_jasa").text(kd_jasa);
+            $('#ModalOrderDetail').modal('show');
+          }
         });
+      return false;
+    });
 
-
-        $('.add_cart_ver2').click(function(e){
-            var kd_barang = $("#kd_barang_id").val();
-            var item = $("#item_id").val();
-
-             if (item == "") {
-                swal({
-                  title: "Item Harus Diisi",
-                  text: "",
-                  icon: "error",
-                  button: "Ok !",
-                });
-                e.preventDefault();
-                return false;
-            }
-
-                    $.ajax({
+    $('.add_cart_ver2').click(function(e){
+      var kd_barang = $("#kd_barang_id").val();
+      var item = $("#item_id").val();
+      if (item == "") {
+        swal({
+          title: "Item Harus Diisi",
+          text: "",
+          icon: "error",
+          button: "Ok !",
+        });
+        e.preventDefault();
+        return false;
+      }
+      //cek stok
+      $.ajax({
+        url : "<?php echo base_url('ControllerOrder/cekStok');?>",
+        method : "GET",
+        dataType: 'JSON',
+        data : {kd_barang: kd_barang},
+        success: function(data){
+          var a = data;
+          if(data < item){
+            swal({
+              title: "Stok Tidak Cukup",
+              text: "",
+              icon: "error",
+              button: "Ok !",
+            });
+            e.preventDefault();
+            return false;     
+          } else {
+            $.ajax({
+              url : "<?php echo base_url('ControllerOrder/add_to_cart_ver2');?>",
+              method : "POST",
+              data : {kd_barang: kd_barang, item: item},
+              success: function(data){                
+                //cek stok 2
+                $.ajax({
+                  url : "<?php echo base_url('ControllerOrder/cekStok_2');?>",
+                  success: function(data){
+                    if(data > a){
+                      swal({
+                        title: "Stok Tidak Cukup",
+                        text: "",
+                        icon: "error",
+                        button: "Ok !",
+                      });
+                      b = a-data;
+                      $.ajax({
                         url : "<?php echo base_url('ControllerOrder/add_to_cart_ver2');?>",
                         method : "POST",
-                        data : {kd_barang: kd_barang, item: item},
+                        data : {kd_barang: kd_barang, item: b},
                         success: function(data){
-                            $('[name="item"]').val("");
-                            $('#detail_cart2').html(data);
+                          $('[name="item"]').val("");
+                          $('#detail_cart2').html(data); 
                         }
-                    });
-
-        });
- 
-        // Load shopping cart
-        $('#detail_cart2').load("<?php echo base_url('ControllerOrder/load_cart_ver2');?>");
- 
-        //Hapus Item Cart
-        $(document).on('click','.hapus_cart_ver2',function(){
-            var row_id=$(this).attr("id"); //mengambil row_id dari artibut id
-            $.ajax({
-                url : "<?php echo base_url('ControllerOrder/hapus_cart_ver2');?>",
-                method : "POST",
-                data : {row_id : row_id},
-                success :function(data){
-                    $('#detail_cart2').html(data);
-                }
-            });
-        });
-
-        tampil_data_order(); //pemanggilan fungsi tampil order.
-    
-        $('#dataOrder').dataTable();
-
-        //fungsi tampil jasa
-        function tampil_data_order(){
-        var kode_lempar = $('#lempar_kode').text();
-            $.ajax({
-                type  : 'GET',
-                url   : "<?php echo base_url('ControllerOrder/get_detail_order_ver2')?>",
-                async : false,
-                dataType : 'json',
-                data: {kd_order:kode_lempar},
-                success : function(data){
-                    var html = '';
-                    var i;
-                    no = 1;
-                    for(i=0; i<data.length; i++){
-
-                      //rupiah
-                      var har = data[i].harga;
-                      var reverse = har.toString().split('').reverse().join(''),
-                          ribuan  = reverse.match(/\d{1,3}/g);
-                          ribuan  = ribuan.join('.').split('').reverse().join('');
-
-                      //rupiah ver2
-                      var jml = data[i].jumlah;
-                      var reverse2 = jml.toString().split('').reverse().join(''),
-                          ribuan2  = reverse2.match(/\d{1,3}/g);
-                          ribuan2  = ribuan2.join('.').split('').reverse().join('');
-
-                        html += 
-                        '<tr>'+
-                            '<td align="center">'+ no++ +'.'+'</td>'+
-                            '<td align="center">'+data[i].kd_jasa+'</td>'+
-                            '<td align="center">'+data[i].nm_jasa+'</td>'+
-                            '<td align="center">'+ribuan+'</td>'+
-                            '<td align="center">'+data[i].satuan+'</td>'+
-                            '<td align="center">'+ribuan2+'</td>'+
-                            '<td style="text-align:center;">'+
-                              '<button data-target="javascript:;" class="btn btn-danger order_detail" data="'+data[i].kd_jasa+'"><span class="fa fa-gear"></span> Proses Cucian</button>'+' '+
-                            '</td>'+
-                        '</tr>';
+                      });
+                      return false;                 
                     }
-                    $('#show_data').html(html);
-                }
+                  }
+                });              
+                  $('[name="item"]').val("");
+                  $('#detail_cart2').html(data);
+              }
             });
+          }
         }
+      });
+    });
+ 
+    // Load shopping cart
+    $('#detail_cart2').load("<?php echo base_url('ControllerOrder/load_cart_ver2');?>");
+ 
+    //Hapus Item Cart
+    $(document).on('click','.hapus_cart_ver2',function(){
+      var row_id=$(this).attr("id"); //mengambil row_id dari artibut id
+        $.ajax({
+          url : "<?php echo base_url('ControllerOrder/hapus_cart_ver2');?>",
+          method : "POST",
+          data : {row_id : row_id},
+          success :function(data){
+            $('#detail_cart2').html(data);
+          }
+        });
+    });
 
-        //Simpan jasa
-        $('#btn_simpan').on('click',function(){
-          
-          $.ajax({
-            type : "POST",
-            url  : "<?php echo base_url('ControllerOrder/load_detail_ver2')?>",
-            dataType : "JSON",
-            success: function(data){
+    tampil_data_order(); //pemanggilan fungsi tampil order.
+    $('#dataOrder').dataTable();
 
-              var kd_order = $('#lempar_kode').text();
-              var kd_jasa = $("#kode_jasa").text();
-              
-              $.each(data,function(index,objek){
-                var kd_barang = objek.kd_barang;
-                var nm_barang = objek.nm_barang;
-                var stok = objek.stok;
-                var item = objek.item;
+    //fungsi tampil jasa
+    function tampil_data_order(){
+      var kode_lempar = $('#lempar_kode').text();
+      $.ajax({
+        type  : 'GET',
+        url   : "<?php echo base_url('ControllerOrder/get_detail_order_ver2')?>",
+        async : false,
+        dataType : 'json',
+        data: {kd_order:kode_lempar},
+        success : function(data){
+          var html = '';
+          var i;
+          no = 1;
+          for(i=0; i<data.length; i++){
+            //rupiah
+            var har = data[i].harga;
+            var reverse = har.toString().split('').reverse().join(''),
+                ribuan  = reverse.match(/\d{1,3}/g);
+                ribuan  = ribuan.join('.').split('').reverse().join('');
+            //rupiah ver2
+            var jml = data[i].jumlah;
+            var reverse2 = jml.toString().split('').reverse().join(''),
+                ribuan2  = reverse2.match(/\d{1,3}/g);
+                ribuan2  = ribuan2.join('.').split('').reverse().join('');
 
-                $.ajax({
-                  type : "POST",
-                  url  : "<?php echo base_url('ControllerOrder/simpan_detail_ver2')?>",
-                  dataType : "JSON",
-                  data : {kd_barang:kd_barang, kd_order:kd_order, item:item, stok:stok, kd_order:kd_order, kd_jasa:kd_jasa},  
-                });
+            html += 
+              '<tr>'+
+                '<td align="center">'+ no++ +'.'+'</td>'+
+                '<td align="center">'+data[i].kd_jasa+'</td>'+
+                '<td align="center">'+data[i].nm_jasa+'</td>'+
+                '<td align="center">'+ribuan+'</td>'+
+                '<td align="center">'+data[i].satuan+'</td>'+
+                '<td align="center">'+ribuan2+'</td>'+
+                '<td style="text-align:center;">'+
+                '<button data-target="javascript:;" class="btn btn-danger order_detail" data="'+data[i].kd_jasa+'"><span class="fa fa-gear"></span> Proses Cucian</button>'+' '+
+                '</td>'+
+              '</tr>';
+          }
+          $('#show_data').html(html);
+        }
+      });
+    }
 
-
+    //Simpan jasa
+    $('#btn_simpan').on('click',function(){      
+      $.ajax({
+        type : "POST",
+        url  : "<?php echo base_url('ControllerOrder/load_detail_ver2')?>",
+        dataType : "JSON",
+        success: function(data){
+          var kd_order = $('#lempar_kode').text();
+          var kd_jasa = $("#kode_jasa").text();        
+            $.each(data,function(index,objek){
+              var kd_barang = objek.kd_barang;
+              var nm_barang = objek.nm_barang;
+              var stok = objek.stok;
+              var item = objek.item;
+              $.ajax({
+                type : "POST",
+                url  : "<?php echo base_url('ControllerOrder/simpan_detail_ver2')?>",
+                dataType : "JSON",
+                data : {kd_barang:kd_barang, kd_order:kd_order, item:item, stok:stok, kd_order:kd_order, kd_jasa:kd_jasa},  
               });
-
-              swal({
-                  title: "Berhasil Diproses",
-                  text: "",
-                  icon: "success",
-                  button: "Ok !",
-                }).then(function() {
-                  $('#detail_cart2').load('<?php echo base_url('order/destroy') ?>');
-              });
+            });
+            swal({
+              title: "Berhasil Diproses",
+              text: "",
+              icon: "success",
+              button: "Ok !",
+            }).then(function() {
+              $('#detail_cart2').load('<?php echo base_url('order/destroy') ?>');
+            });
               $('#ModalOrderDetail').modal('hide');
               tampil_data_order();
             }
-          });
-          return false;
-        });
-
-        $('.btn_tutup').on('click',function(){
-          $('#detail_cart2').load('<?php echo base_url('order/destroy') ?>');
-          $('#ModalOrderDetail').modal('hide');
-          return false;
-        });
-
+      });
+      return false;
     });
+
+    $('.btn_tutup').on('click',function(){
+      $('#detail_cart2').load('<?php echo base_url('order/destroy') ?>');
+      $('#ModalOrderDetail').modal('hide');
+      return false;
+    });
+
+  });
 </script> 

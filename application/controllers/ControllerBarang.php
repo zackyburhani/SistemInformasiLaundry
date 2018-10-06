@@ -44,7 +44,8 @@ class ControllerBarang extends CI_Controller
 	}
 
 	function simpan()
-	{
+	{	
+		$username = $this->session->username;
 		$kd_barang = $this->input->post('kd_barang');
 		$nm_barang = $this->input->post('nm_barang');
 		$harga = $this->input->post('harga');

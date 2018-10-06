@@ -148,8 +148,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
-          <button class="btn btn-warning" id="btn_simpan">Simpan</button>
+          <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i> Tutup</button>
+          <button class="btn btn-warning" id="btn_simpan"><i class="fa fa-save"></i> Simpan</button>
         </div>
       </form>
     </div>
@@ -220,6 +220,7 @@
                 method : "POST",
                 data : {kd_jasa: kd_jasa, qty: qty},
                 success: function(data){
+                    $('#tambahOrder').slideDown( "slow" );
                     $('[name="qty"]').val("");
                     $('#detail_cart').html(data);
                 }
@@ -279,17 +280,37 @@
 
         //get Kode
         $("#tambahOrder").click(function(){ 
-            $.ajax({
-              type : "GET",
-              url  : "<?php echo base_url('order/getKode')?>",
-              dataType : "JSON",
-              success: function(data){
-                $.each(data,function(kd_order){
-                  $('#ModalTambahOrder').modal('show');
-                  $('[name="kd_order"]').val(data.kd_order);
+
+          //untuk validasi tombol simpan
+          $.ajax({
+            url  : "<?php echo base_url('ControllerOrder/cekCart')?>",
+            dataType : "JSON",
+            success: function(data){
+              if(data == false){
+                swal({
+                  title: "Tidak Ada Data Yang Diproses",
+                  text: "",
+                  icon: "error",
+                  button: "Ok !",
+                });
+                return false;
+              } else {
+
+                $.ajax({
+                  type : "GET",
+                  url  : "<?php echo base_url('order/getKode')?>",
+                  dataType : "JSON",
+                  success: function(data){
+                    $.each(data,function(kd_order){
+                      $('#ModalTambahOrder').modal('show');
+                      $('[name="kd_order"]').val(data.kd_order);
+                    });
+                  }
                 });
               }
-            });
+            }
+          });
+
             return false;
         });
 
@@ -493,6 +514,7 @@
         $('.btn_proses').on('click',function(){
           var kd_order = $('#lempar_kode').text();
 
+          
 
           swal({
               title: "Anda Yakin?",
