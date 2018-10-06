@@ -114,3 +114,7 @@ $route['pendapatan/cetak'] = 'ControllerPendapatan/cetak';
 //laporan jasa
 $route['laporan_jasa'] = 'ControllerLapJasa';
 $route['laporan_jasa/cetak'] = 'ControllerLapJasa/cetak';
+
+//laporan stok
+$route['laporan_stok'] = 'ControllerLapStok';
+$route['laporan_stok/cetak'] = 'ControllerLapStok/cetak';

@@ -67,6 +67,11 @@
                 <i class="fa fa-circle-o"></i> <span>Laporan Jasa</span>
               </a>
             </li>
+            <li>
+              <a href="<?php echo site_url('laporan_stok') ?>">
+                <i class="fa fa-circle-o"></i> <span>Laporan Stok</span>
+              </a>
+            </li>
           </ul>
         </li>
         <li class="header"></li>

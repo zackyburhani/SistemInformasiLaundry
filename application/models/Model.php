@@ -320,11 +320,23 @@ class Model extends CI_Model {
 		}
 		return $check;
 	}
-	
-    
 
-	//pelanggan terbanyak
-// 	 SELECT count(*) as total, pelanggan.kd_pelanggan,nm_pelanggan from order_pesanan 
-//  	JOIN pelanggan ON order_pesanan.kd_pelanggan = pelanggan.kd_pelanggan
-// GROUP by pelanggan.kd_pelanggan
+	public function lapStok($awal,$akhir)
+	{
+		$check = false;
+		try{
+			$query = $this->db->query("
+				SELECT barang.kd_barang,nm_barang,harga, sum(jumlah) as total FROM barang 
+					JOIN detail_barang ON barang.kd_barang = detail_barang.kd_barang 
+				    JOIN order_pesanan ON order_pesanan.kd_order = detail_barang.kd_order 
+				WHERE tgl_keluar BETWEEN '$awal' AND '$akhir' 
+				GROUP by barang.kd_barang
+			");
+			return $query->result();
+		}catch (Exception $ex) {
+			$check = false;
+		}
+		return $check;
+	}
+
 }

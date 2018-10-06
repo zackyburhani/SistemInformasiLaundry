@@ -28,7 +28,7 @@ class ControllerLogin extends CI_Controller {
 
 		if($checkUsername==NULL){
 			$this->session->set_flashdata('pesanGagal','Kesalahan');
-			redirect('login');
+			redirect('');
 
 		}else{
 

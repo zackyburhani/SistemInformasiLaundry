@@ -1,101 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<title>Halaman Login</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="SHORTCUT ICON" href="<?php echo base_url('')?>">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/Login/vendor/bootstrap/css/bootstrap.min.css')?>">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css')?>">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/Login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css')?>">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/Login/vendor/animate/animate.css')?>">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/Login/vendor/css-hamburgers/hamburgers.min.css')?>">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/Login/vendor/animsition/css/animsition.min.css')?>">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/Login/vendor/select2/select2.min.css')?>">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/Login/vendor/daterangepicker/daterangepicker.css')?>">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/Login/css/util.css')?>">
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/Login/css/main.css')?>">
-<!--===============================================================================================-->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Sistem Informasi Laundry</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css')?>">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/bower_components/font-awesome/css/font-awesome.min.css')?>">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/bower_components/Ionicons/css/ionicons.min.css')?>">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.css')?>">
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')?>">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/plugins/iCheck/all.css')?>">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')?>">
+  <!-- Bootstrap time Picker -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.css')?>">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/bower_components/select2/dist/css/select2.min.css')?>">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/dist/css/AdminLTE.min.css')?>">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/dist/css/skins/_all-skins.min.css')?>">
+   <!-- logo -->
+  <link rel="SHORTCUT ICON" href="<?php echo base_url('assets/img/logo.png')?>">
+  <!-- SweetAlert -->
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/AdminLTE/dist/css/sweetalert.css')?>">
+  <!-- Datatables -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')?>">
+
+  <!-- ajax -->
+  <!-- jQuery 3 -->
+  <script src="<?php echo base_url('assets/AdminLTE/bower_components/jquery/dist/jquery.min.js')?>"></script>
+
+  <!-- Datatables -->
+  <script src="<?php echo base_url('assets/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js')?>"></script>
+  <script src="<?php echo base_url('assets/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')?>"></script>
+  <!-- SweetAlert -->
+  <script src="<?php echo base_url('assets/sweetalert/docs/assets/sweetalert/sweetalert.min.js')?>"></script>
 
 </head>
-<body>
+<body class="hold-transition login-page" style="background: #F9BF3B">
+<div class="login-box">
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <div class="login-logo">
+      <img src="assets/img/logo.png" alt="User Image" height="100px" width="100px"><br>
+      <b>Login Admin</b>
+    </div>
+    <p class="login-box-msg">Silahkan login sebagai Admin<br>
+    </p>
+    <form action="<?php echo site_url('login/auth') ?>" method="POST">
+    	
 
-	<?php if ($this->session->flashdata('pesanGagal') == TRUE) { ?>
+    <?php if ($this->session->flashdata('pesanGagal') == TRUE) { ?>
         <script>
             setTimeout(function() {
               	swal({
-                      title: "",
-                      text: "Username atau Password Salah",
-                      type: "error"
+                  title: "Username Atau Password Salah",
+                  text: "",
+                  icon: "error",
+                  button: "Ok !",
                 });
             }, 600);
         </script>
     <?php } ?>
 
-	<div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100">
-				<div class="login100-form-title" style="background-image: url(assets/Login/images/bg.jpg);">
-					<span class="login100-form-title-1">
-						Silahkan Masuk
-					</span>
-				</div>
+    <!-- /.INPUTAN ID -->
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" placeholder="Username" name="username" required>
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+    <!-- END INPUTAN ID -->
 
-				<form class="login100-form validate-form" method="POST" action="<?php echo site_url('login/auth') ?>">
-					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
-						<span class="label-input100">Username</span>
-						<input class="input100" type="text" name="username" placeholder="Enter username">
-						<span class="focus-input100"></span>
-					</div>
+    <!-- INPUTAN PASSWORD -->
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" placeholder="Password" name="password" required>
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+    <!-- END INPUTAN PASSWORD -->
+      <div class="row">
+        <!-- /.col -->
+        <div class="col-md-12">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Log In</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
 
-					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
-						<span class="label-input100">Password</span>
-						<input class="input100" type="password" name="password" placeholder="Enter password">
-						<span class="focus-input100"></span>
-					</div>
-
-					<div class="flex-sb-m w-full p-b-30">
-						
-					</div>
-
-					<div class="container-login100-form-btn">
-						<button type="submit" class="login100-form-btn btn-block">
-							Login
-						</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	
-<!--===============================================================================================-->
-	<script src="<?php echo base_url('assets/Login/vendor/jquery/jquery-3.2.1.min.js')?>"></script>
-<!--===============================================================================================-->
-	<script src="<?php echo base_url('assets/Login/vendor/animsition/js/animsition.min.js')?>"></script>
-<!--===============================================================================================-->
-	<script src="<?php echo base_url('assets/Login/vendor/bootstrap/js/popper.js')?>"></script>
-	<script src="<?php echo base_url('assets/Login/vendor/bootstrap/js/bootstrap.min.js')?>"></script>
-<!--===============================================================================================-->
-	<script src="<?php echo base_url('assets/Login/vendor/select2/select2.min.js')?>"></script>
-<!--===============================================================================================-->
-	<script src="<?php echo base_url('assets/Login/vendor/daterangepicker/moment.min.js')?>"></script>
-	<script src="<?php echo base_url('assets/Login/vendor/daterangepicker/daterangepicker.js')?>"></script>
-<!--===============================================================================================-->
-	<script src="<?php echo base_url('assets/Login/vendor/countdowntime/countdowntime.js')?>"></script>
-<!--===============================================================================================-->
-	<script src="<?php echo base_url('assets/Login/js/main.js')?>"></script>
-<!--===============================================================================================-->
-  <script src="<?php echo base_url('assets/AdminLTE/dist/js/sweetalert.min.js')?>"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="<?php echo base_url('assets/AdminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
+<!-- Select2 -->
+<script src="<?php echo base_url('assets/AdminLTE/bower_components/select2/dist/js/select2.full.min.js')?>"></script>
+<!-- InputMask -->
+<script src="<?php echo base_url('assets/AdminLTE/plugins/input-mask/jquery.inputmask.js')?>"></script>
+<script src="<?php echo base_url('assets/AdminLTE/plugins/input-mask/jquery.inputmask.date.extensions.js')?>"></script>
+<script src="<?php echo base_url('assets/AdminLTE/plugins/input-mask/jquery.inputmask.extensions.js')?>"></script>
+<!-- date-range-picker -->
+<script src="<?php echo base_url('assets/AdminLTE/bower_components/moment/min/moment.min.js')?>"></script>
+<script src="<?php echo base_url('assets/AdminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.js')?>"></script>
+<!-- bootstrap datepicker -->
+<script src="<?php echo base_url('assets/AdminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')?>"></script>
+<!-- bootstrap color picker -->
+<script src="<?php echo base_url('assets/AdminLTE/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js')?>"></script>
+<!-- bootstrap time picker -->
+<script src="<?php echo base_url('assets/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.js')?>"></script>
+<!-- SlimScroll -->
+<script src="<?php echo base_url('assets/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')?>"></script>
+<!-- iCheck 1.0.1 -->
+<script src="<?php echo base_url('assets/AdminLTE/plugins/iCheck/icheck.min.js')?>"></script>
+<!-- FastClick -->
+<script src="<?php echo base_url('assets/AdminLTE/bower_components/fastclick/lib/fastclick.js')?>"></script>
+<!-- AdminLTE App -->
+<script src="<?php echo base_url('assets/AdminLTE/dist/js/adminlte.min.js')?>"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="<?php echo base_url('assets/AdminLTE/dist/js/demo.js')?>"></script>
 </body>
 </html>

@@ -122,7 +122,8 @@ class ControllerOrder extends CI_Controller
 			'tgl_masuk' => $tgl_masuk,
 			'tgl_keluar' => $tgl_keluar,
 			'status' => '0',
-			'kd_pelanggan' => $kd_pelanggan
+			'kd_pelanggan' => $kd_pelanggan,
+            'username' => $username
 		];
 
 		$result = $this->Model->simpan('order_pesanan',$data);

@@ -4,43 +4,7 @@
     <section class="content">
       <!--START CONTENT LABEL-->
       <div class="bs-callout bs-callout-success">
-        <style type="text/css">
-          .bs-callout {
-              padding: 20px;
-              margin: 20px 0;
-              border: 1px solid #d9d9d9;
-              border-left-width: 5px;
-              border-radius: 3px;
-          }
-          .bs-callout h4 {
-              margin-top: 0;
-              margin-bottom: 5px;
-          }
-          .bs-callout p:last-child {
-              margin-bottom: 0;
-          }
-          .bs-callout code {
-              border-radius: 3px;
-          }
-          .bs-callout+.bs-callout {
-              margin-top: -5px;
-          }
-          .bs-callout-success {
-              background-color:  #d9d9d9;
-              /*border-left-color: #5cb85c;*/
-          }
-        </style>
-        <div class="row">
-          <div class="form-group">
-            <img class="col-md-1" src="<?php echo site_url('')?>" width="500px">
-            <div class="col-md-11">
-              <h4 style="margin-top: 20px;"><strong> SISTEM INFORMASI PENJUALAN TUNAI PT. TRIMITRA INTI GEMILANG </strong></h4>
-            </div>
-        </div>
-      </div>
-    </div>
-    <!--EDN CONTENT LABEL-->
-
+        <br>
       <!-- Small boxes (Stat box) -->
       <div class="row">
         <div class="col-md-4">

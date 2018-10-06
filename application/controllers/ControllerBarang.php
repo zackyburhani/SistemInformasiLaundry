@@ -55,6 +55,7 @@ class ControllerBarang extends CI_Controller
 			'nm_barang' => $nm_barang,
 			'harga' => $harga,
 			'stok' => $stok,
+			'username' => $username
 		];
 
 		$result = $this->Model->simpan('barang',$data);
@@ -80,7 +81,8 @@ class ControllerBarang extends CI_Controller
 			'kd_barang' => $kd_barang,
 			'nm_barang' => $nm_barang,
 			'harga' => $harga,
-			'stok' => $stok
+			'stok' => $stok,
+			'username' => $username
 		];
 
 		$result = $this->Model->update('kd_barang',$kd_barang,$data,'barang');
