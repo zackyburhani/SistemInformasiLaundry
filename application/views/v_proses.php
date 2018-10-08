@@ -124,6 +124,12 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
+
+    $('#item_id').keypress(function (event) {
+      if (event.keyCode === 10 || event.keyCode === 13) {
+        event.preventDefault();
+      }
+    });
     
     $('#show_data').on('click','.order_detail',function(){
       var kd_jasa = $(this).attr('data');

@@ -200,6 +200,12 @@
   <script type="text/javascript">
     $(document).ready(function(){
 
+        $('#qty_id').keypress(function (event) {
+            if (event.keyCode === 10 || event.keyCode === 13) {
+                event.preventDefault();
+            }
+        });
+
         $('.add_cart').click(function(e){
             var kd_jasa = $("#kd_jasa_id").val();
             var qty = $("#qty_id").val();
