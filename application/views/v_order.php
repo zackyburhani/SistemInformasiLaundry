@@ -544,8 +544,6 @@
                   }
                 });
 
-
-
                 swal({
                       title: "Berhasil Diproses",
                       text: "",

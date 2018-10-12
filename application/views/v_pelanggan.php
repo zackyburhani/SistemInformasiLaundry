@@ -165,39 +165,39 @@
 <!--END MODAL HAPUS-->
 
 <script type="text/javascript">
-    $(document).ready(function(){
-    tampil_data_pelanggan(); //pemanggilan fungsi tampil pelanggan.
+  $(document).ready(function(){
+  tampil_data_pelanggan(); //pemanggilan fungsi tampil pelanggan.
     
-    $('#dataPelanggan').dataTable();
+  $('#dataPelanggan').dataTable();
      
-    //fungsi tampil barang
-    function tampil_data_pelanggan(){
-        $.ajax({
-            type  : 'ajax',
-            url   : "<?php echo base_url('pelanggan/data_pelanggan')?>",
-            async : false,
-            dataType : 'json',
-            success : function(data){
-                var html = '';
-                var i;
-                no = 1;
-                for(i=0; i<data.length; i++){
-                    html += 
-                    '<tr>'+
-                        '<td align="center">'+ no++ +'.'+'</td>'+
-                        '<td>'+data[i].nm_pelanggan+'</td>'+
-                        '<td>'+data[i].no_telp+'</td>'+
-                        '<td>'+data[i].alamat+'</td>'+
-                        '<td style="text-align:center;">'+
-                          '<button data-target="javascript:;" class="btn btn-warning pelanggan_edit" data="'+data[i].kd_pelanggan+'"><span class="glyphicon glyphicon-edit"></span></button>'+' '+
-                          '<button data-target="javascript:;" class="btn btn-danger pelanggan_hapus" data="'+data[i].kd_pelanggan+'"><span class="glyphicon glyphicon-trash"></span></button>'+
-                        '</td>'+
-                    '</tr>';
-                }
-                $('#show_data').html(html);
-            }
-        });
-    }
+  //fungsi tampil barang
+  function tampil_data_pelanggan(){
+    $.ajax({
+      type  : 'ajax',
+      url   : "<?php echo base_url('pelanggan/data_pelanggan')?>",
+      async : false,
+      dataType : 'json',
+      success : function(data){
+        var html = '';
+        var i;
+        no = 1;
+        for(i=0; i<data.length; i++){
+          html += 
+            '<tr>'+
+              '<td align="center">'+ no++ +'.'+'</td>'+
+              '<td>'+data[i].nm_pelanggan+'</td>'+
+              '<td>'+data[i].no_telp+'</td>'+
+              '<td>'+data[i].alamat+'</td>'+
+              '<td style="text-align:center;">'+
+              '<button data-target="javascript:;" class="btn btn-warning pelanggan_edit" data="'+data[i].kd_pelanggan+'"><span class="glyphicon glyphicon-edit"></span></button>'+' '+
+              '<button data-target="javascript:;" class="btn btn-danger pelanggan_hapus" data="'+data[i].kd_pelanggan+'"><span class="glyphicon glyphicon-trash"></span></button>'+
+              '</td>'+
+            '</tr>';
+          }
+        $('#show_data').html(html);
+      }
+    });
+  }
 
     //get Kode
     $("#tambahPelanggan").click(function(){
@@ -264,6 +264,12 @@
               swal("Berhasil Disimpan", "", "success");
                   }, 600);
           tampil_data_pelanggan();
+        },
+        error: function (data) {
+          setTimeout(function() {
+              swal("Terjadi Kesalahan", "", "error");
+                  }, 600);
+          console.log('Error:', data);
         }
       });
       return false;
