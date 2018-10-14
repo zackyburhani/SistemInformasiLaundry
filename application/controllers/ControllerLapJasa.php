@@ -88,7 +88,8 @@ class ControllerLapJasa extends CI_Controller
             $pdf->Cell(40,6,number_format($row->harga,0,',','.'),1,0,'C');
             $pdf->Cell(45,6,$row->total,1,1,'C');
         }
-
-        $pdf->Output();
+        
+        $fileName = 'LAPORAN_JASA_'.$awal.'/'.$akhir.'.pdf';
+        $pdf->Output('D',$fileName); 
     }
 }

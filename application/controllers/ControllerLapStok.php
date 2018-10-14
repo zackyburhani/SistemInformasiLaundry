@@ -87,6 +87,7 @@ class ControllerLapStok extends CI_Controller
             $pdf->Cell(45,6,$row->total,1,1,'C');
         }
 
-        $pdf->Output();
+        $fileName = 'LAPORAN_STOK_'.$awal.'/'.$akhir.'.pdf';
+        $pdf->Output('D',$fileName); 
     }
 }

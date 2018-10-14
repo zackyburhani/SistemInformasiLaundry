@@ -96,6 +96,7 @@ class ControllerPendapatan extends CI_Controller
         $pdf->Cell(45,6,'Rp. '.number_format(array_sum($tampung),0,',','.'),1,1,'C');
         $pdf->SetFont('Arial','',8);
 
-        $pdf->Output();
+        $fileName = 'LAPORAN_PENDAPATAN_'.$awal.'/'.$akhir.'.pdf';
+        $pdf->Output('D',$fileName); 
     }
 }

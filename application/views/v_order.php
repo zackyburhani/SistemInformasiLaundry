@@ -462,7 +462,7 @@
           var kd_pelanggan = $('#kd_pelanggan_id').val();
 
           if(tgl_masuk > tgl_keluar){
-            alert('tidak valid');
+            alert('Tanggal Tidak Valid');
             return false
           }
 

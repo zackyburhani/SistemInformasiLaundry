@@ -325,8 +325,8 @@ class ControllerOrder extends CI_Controller
         $pdf->Cell(63,6,'',0,0,'C');
         $pdf->Cell(63,6,'( '.$nama_petugas.' )',0,0,'C');
         
-
-        $pdf->Output();
+        $fileName = $kd_order.'/'.$pemesanan_fetch->nm_pelanggan.'.pdf';
+        $pdf->Output('D',$fileName); 
     }
 
     function add_to_cart_ver2(){ //fungsi Add To Cart
