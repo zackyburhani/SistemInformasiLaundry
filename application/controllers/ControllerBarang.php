@@ -11,7 +11,7 @@ class ControllerBarang extends CI_Controller
 		if($username == null){
 			redirect('');
 		}
-	}
+	} 
 	
 	function index()
 	{	
