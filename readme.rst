@@ -2,4 +2,4 @@
 Kezia Laundry Service
 ###################
 
-Sistem Informasi Laundry
+Sistem Informasi Laundry Menggunakan Codeigniter, MySQL ,jQuery dan AJAX
