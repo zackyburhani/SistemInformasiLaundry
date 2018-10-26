@@ -1,3 +1,5 @@
-# Kenza Laundry Service
+###################
+Kenza Laundry Service
+###################
 
-> Sistem Informasi Laundry
+Sistem Informasi Laundry
