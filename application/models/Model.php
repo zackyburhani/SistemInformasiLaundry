@@ -312,7 +312,7 @@ class Model extends CI_Model {
 					JOIN detail_order ON detail_order.kd_jasa = jasa.kd_jasa
 				    JOIN order_pesanan ON order_pesanan.kd_order = detail_order.kd_order
 				WHERE order_pesanan.status = '1' AND tgl_keluar BETWEEN '$awal' AND '$akhir'
-				GROUP by jasa.kd_jasa
+				GROUP by jasa.kd_jasa ORDER BY total DESC
 			");
 			return $query->result();
 		}catch (Exception $ex) {
@@ -330,7 +330,7 @@ class Model extends CI_Model {
 					JOIN detail_barang ON barang.kd_barang = detail_barang.kd_barang 
 				    JOIN order_pesanan ON order_pesanan.kd_order = detail_barang.kd_order 
 				WHERE tgl_keluar BETWEEN '$awal' AND '$akhir' 
-				GROUP by barang.kd_barang
+				GROUP by barang.kd_barang ORDER BY total DESC
 			");
 			return $query->result();
 		}catch (Exception $ex) {

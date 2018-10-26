@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-md-4">
           <!-- small box -->
-          <div class="small-box bg-yellow">
+          <div class="small-box bg-aqua">
             <div class="inner">
               <h3><?php echo $pelanggan ?></h3>
               <p>Data Pelanggan</p>
@@ -36,7 +36,7 @@
         <!-- ./col -->
         <div class="col-md-4">
           <!-- small box -->
-          <div class="small-box bg-red">
+          <div class="small-box bg-aqua">
             <div class="inner">
               <h3><?php echo $jasa ?></h3>
               <p>Data Jasa</p>

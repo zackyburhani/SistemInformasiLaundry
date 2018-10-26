@@ -149,7 +149,7 @@
 
         <div class="modal-footer">
           <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i> Tutup</button>
-          <button class="btn btn-warning" id="btn_simpan"><i class="fa fa-save"></i> Simpan</button>
+          <button class="btn btn-primary" id="btn_simpan"><i class="fa fa-save"></i> Simpan</button>
         </div>
       </form>
     </div>
@@ -473,9 +473,9 @@
             data : {kd_order:kd_order, tgl_masuk:tgl_masuk, tgl_keluar:tgl_keluar, kd_pelanggan:kd_pelanggan},
             success: function(data){
               $('[name="kd_order"]').val("");
-              $('[name="tgl_masuk"]').val("");
+              $('[name="tgl_masuk"]').val("<?php echo date('Y-m-d') ?>");
               $('[name="tgl_keluar"]').val("");
-              $('[name="kd_pelanggan"]').val("");
+              $('[name="kd_pelanggan"]').prop("selected", false);
               $('#ModalTambahOrder').modal('hide');
               
 

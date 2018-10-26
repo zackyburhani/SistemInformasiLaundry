@@ -206,7 +206,8 @@ class ControllerOrder extends CI_Controller
 	}
 
 	function proses($kd_order)
-	{
+	{   
+        $this->destroy();
 		$data = [
 			'barang' => $this->Model->getAll('barang'),
 			'kd_order' => $kd_order
@@ -226,9 +227,9 @@ class ControllerOrder extends CI_Controller
         $pdf->SetFont('Arial','B',16);
         //cetak gambar
         $image1 = "assets/img/logo.png";
-        $pdf->Cell(1, 0, $pdf->Image($image1, $pdf->GetX(), $pdf->GetY(), 35.20), 0, 0, 'L', false );
+        $pdf->Cell(1, 0, $pdf->Image($image1, $pdf->GetX(), $pdf->GetY(), 44.20), 0, 0, 'L', false );
         // mencetak string
-        $pdf->Cell(186,10,'PT. Trimitra Inti Gemilang',0,1,'C');
+        $pdf->Cell(186,10,'Kezia Laundry Service',0,1,'C');
         $pdf->Cell(9,1,'',0,1);
         $pdf->SetFont('Arial','',9);
         $pdf->Cell(186,1,'Komplek Duta Harapan Indah Blok ii No.24',0,1,'C');

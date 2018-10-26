@@ -30,7 +30,7 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/dist/css/skins/_all-skins.min.css')?>">
    <!-- logo -->
-  <link rel="SHORTCUT ICON" href="<?php echo base_url('assets/img/logo.png')?>">
+  <link rel="SHORTCUT ICON" href="<?php echo base_url('assets/img/title.png')?>">
   <!-- SweetAlert -->
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/AdminLTE/dist/css/sweetalert.css')?>">
   <!-- Datatables -->
@@ -47,16 +47,14 @@
   <script src="<?php echo base_url('assets/sweetalert/docs/assets/sweetalert/sweetalert.min.js')?>"></script>
 
 </head>
-<body class="hold-transition login-page" style="background: #F9BF3B">
-<div class="login-box">
+<body class="hold-transition login-page" style="background: #87bdd8;">
+<div class="login-box" style="box-shadow: 6px 7px 5px -4px rgba(0,0,0,0.36); margin-top: 80px">
   <!-- /.login-logo -->
-  <div class="login-box-body">
+  <div class="login-box-body" style="background : #e3e5ed">
     <div class="login-logo">
-      <img src="assets/img/logo.png" alt="User Image" height="100px" width="100px"><br>
-      <b>Login Admin</b>
+      <img src="assets/img/logo.png" alt="User Image" height="100%" width="100%"><br>
+      <hr>
     </div>
-    <p class="login-box-msg">Silahkan login sebagai Admin<br>
-    </p>
     <form action="<?php echo site_url('login/auth') ?>" method="POST">
     	
 

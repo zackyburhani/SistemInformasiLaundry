@@ -12,7 +12,7 @@
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <a href="<?php echo site_url('order') ?>" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Kembali</a> 
+          <a href="<?php echo site_url('order') ?>" class="btn btn-success"><i class="fa fa-arrow-left"></i> Kembali</a> 
         </div>
         <div class="panel-body">
           <table style="table-layout:fixed" class="table table-striped table-bordered table-hover" id="dataOrder">
@@ -113,8 +113,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn_tutup">Tutup</button>
-          <button class="btn btn-success" id="btn_simpan">Simpan</button>
+          <button class="btn btn_tutup"><i class="fa fa-close"></i> Tutup</button>
+          <button class="btn btn-success" id="btn_simpan"><i class="fa fa-save"></i> Simpan</button>
         </div>
       </form>
     </div>
@@ -125,6 +125,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
 
+    
     $('#item_id').keypress(function (event) {
       if (event.keyCode === 10 || event.keyCode === 13) {
         event.preventDefault();
