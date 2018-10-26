@@ -43,11 +43,9 @@ class ControllerLapStok extends CI_Controller
         $pdf->Cell(186,10,'Kezia Laundry Service',0,1,'C');
         $pdf->Cell(9,1,'',0,1);
         $pdf->SetFont('Arial','',9);
-        $pdf->Cell(186,1,'Komplek Duta Harapan Indah Blok ii No.24',0,1,'C');
-        $pdf->Cell(186,7,'Jl. Kapuk Muara No.7 Jakarta Utara',0,1,'C');
-        $pdf->Cell(186,1,'Telp : (021) 6683836',0,1,'C');
-        $pdf->Cell(186,6,'Fax : (021) 6683325',0,1,'C');
-        $pdf->Cell(186,1,'Email : tigemilang@yahoo.com',0,1,'C');
+        $pdf->Cell(186,7,'Jl. Kemanggisan Pulo RT.04 / RW.17 No. 71',0,1,'C');
+        $pdf->Cell(186,3,'Palmerah, Jakarta barat',0,1,'C');
+        $pdf->Cell(186,5,'',0,1,'C');
 
         $pdf->Line(10, 42, 210-11, 42); 
         $pdf->SetLineWidth(0.5); 
